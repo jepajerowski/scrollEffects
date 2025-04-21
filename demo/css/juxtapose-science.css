@@ -1,0 +1,41 @@
+div.juxtapose {
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+div.jx-handle{
+	width: 4rem;
+	margin-left: -2rem;
+}
+
+div.jx-controller{
+	display: none;
+}
+
+div.jx-control{
+	width: 1px;
+}
+
+div.jx-arrow, div.jx-arrow.jx-right, div.jx-arrow.jx-left{
+	line-height: 0;
+	font-family: icomoon!important;
+	font-size: 2rem;
+	width: 2rem;
+	border-style: none;
+	text-shadow: 0 0 4px rgba(0,0,0,.45);
+}
+
+div.jx-arrow.jx-right:before{
+ content: "";
+}
+
+div.jx-arrow.jx-left:before{
+	content: "";
+}
+
+div.jx-image div.jx-label{
+	font-weight: 700;
+	padding: .5rem;
+}
+
+a.jx-knightlab{
+	display: none;
+}

@@ -1,0 +1,488 @@
+/* Retrieved 2024-07-16 */
+
+/* ========== START STYLES TO MAKE PB EDITING EASIER ==========  */
+
+/* Fixes problem where editing widgets near the header is impossible without hiding elements via the web inspector */
+#pb-editor .main-header {
+	position: static;
+	height: auto !important;
+	z-index: auto;
+	visibility: visible !important;
+}
+#pb-editor #mainNavbar {
+	height: auto;
+}
+/* Fix problem where wallpaper dropzone is not accessible in the alt-articles-section multi search widget template */
+#pb-editor .section-wallpaper:after {
+	content: none;
+}
+#pb-editor .section-wallpaper {
+	position: static;
+}
+
+/* Journal Highlight Slideshow on Site Home and Cust. Pub. Home: Make dropzones accessible */
+#pb-editor .journals-showcase .col-xl-10 {
+	max-width: none !important;
+}
+#pb-editor .journals-showcase__slideshow .swiper-slide {
+	width: 150px;
+}
+#pb-editor .journals-showcase__slideshow .journal-slide-item .container-fluid {
+	padding: 0;
+	margin: 0;
+}
+#pb-editor .journal-slide-item__title {
+	height: 0;
+}
+#pb-editor .journals-showcase__slideshow .journal-slide-item__cover .cover-image__image, #pb-editor .cover-image__popup-view__wrapper .col-lg-8 {
+	display: none;
+}
+#pb-editor .journal-slide-item .container-fluid {
+	top: 0;
+}
+#pb-editor .journal-slide-item__body {
+	display: block !important;
+	padding: 0 !important;
+}
+#pb-editor .journals-showcase__showcase-item--to-clone {
+	position: static;
+}
+/* ========== END STYLES TO MAKE PB EDITING EASIER ==========  */
+
+
+
+
+.main-header__secondary__logo img {
+    /* height: 90%; */
+    max-width: 100%;
+}
+
+.journal-menu__img {
+    width: unset;
+}
+
+/* LIT-412173 */
+.entity-paragraphs-item figure, figure.entity-paragraphs-item {
+    border-bottom: 1px solid #dbdbdb;
+    border-top: 1px solid #dbdbdb;
+    padding: 16px 0;
+    padding: 1rem 0;
+}
+
+.entity-paragraphs-item figure img {
+    margin-bottom: 0.5rem;
+}
+
+.entity-paragraphs-item figure .credit {
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    color: #7f7f7f;
+}
+
+.entity-paragraphs-item.align-right {
+    width: calc(50% - 1rem);
+    float: right;
+    margin: 0.5rem 0 0.5rem 2rem;
+} 
+
+/* AAAS-813 */
+figure.entity-paragraphs-item.paragraphs-item-table {
+    border-top: 8px solid #333;
+}
+
+figure.entity-paragraphs-item.paragraphs-item-table caption {
+    display: none;
+}
+.credit.credit__tablebundle {
+    color: #757575;
+    text-align: right;
+    font-size: 10px;
+    font-size: .625rem;
+}
+
+/* AAAS-465 */
+.core-container > blockquote:first-child {
+    padding: 1rem;
+    background: #f5f5f5;
+    text-align: left;
+    letter-spacing: normal;
+}
+
+.core-container > blockquote:first-child:before {
+    content: none;
+}
+
+.core-container > blockquote:first-child [role=paragraph] {
+    margin: 0;
+    font-size: 14px;
+    font-size: .875rem;
+    line-height: 22px;
+    line-height: 1.375rem;
+}
+
+.core-container > blockquote:first-child [role=paragraph] b {
+    font-weight: 400;
+}
+
+
+/* Styles for Inline PDF Viewer used in Resource DOs */
+.pdf-view-wrap {
+	position: relative;
+	width: 100%;
+	padding-top: 100%;
+}
+#iframe-fullscreen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    top: 0;
+    left: 0;
+}
+
+
+/* Media embed CSS copied from old site */
+.aspect-ratio--1x1, .aspect-ratio--3x4, .aspect-ratio--4x3, .aspect-ratio--16x9, .media-wrap--1x1, .media-wrap--3x4, .media-wrap--4x3, .media-wrap--16x9 {
+    position: relative;
+    width:100%
+}
+.aspect-ratio--1x1 iframe, .aspect-ratio--1x1 picture, .aspect-ratio--1x1 > :only-child, .aspect-ratio--3x4 iframe, .aspect-ratio--3x4 picture, .aspect-ratio--3x4 > :only-child, .aspect-ratio--4x3 iframe, .aspect-ratio--4x3 picture, .aspect-ratio--4x3 > :only-child, .aspect-ratio--16x9 iframe, .aspect-ratio--16x9 picture, .aspect-ratio--16x9 > :only-child, .media-wrap--1x1 iframe, .media-wrap--1x1 picture, .media-wrap--1x1 > :only-child, .media-wrap--3x4 iframe, .media-wrap--3x4 picture, .media-wrap--3x4 > :only-child, .media-wrap--4x3 iframe, .media-wrap--4x3 picture, .media-wrap--4x3 > :only-child, .media-wrap--16x9 iframe, .media-wrap--16x9 picture, .media-wrap--16x9 > :only-child {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    top: 0;
+    left:0
+}
+.aspect-ratio--1x1 > iframe, .aspect-ratio--3x4 > iframe, .aspect-ratio--4x3 > iframe, .aspect-ratio--16x9 > iframe, .media-wrap--1x1 > iframe, .media-wrap--3x4 > iframe, .media-wrap--4x3 > iframe, .media-wrap--16x9 > iframe {
+    border:0
+}
+.aspect-ratio--16x9, .media-wrap--16x9 {
+    padding-top:56.25%
+}
+.aspect-ratio--4x3, .media-wrap--4x3 {
+    padding-top:75%
+}
+.aspect-ratio--3x4, .media-wrap--3x4 {
+    padding-top:150%
+}
+.aspect-ratio--1x1, .media-wrap--1x1 {
+    padding-top:100%
+}
+
+/* Hide guest purchase option */
+input[data-bind="guest"] {
+    display: none;
+}
+
+/* Hiding key images from Editorial section on Commentary landing page */
+.no-key-image .card-image {
+    display: none !important;
+}
+
+/* AAAS-1369 */
+/* This allows prevents the multi-search widget HTML from breaking the hero display */
+.grid-hero__featured > div, .grid-hero__featured > div > div {
+	height: 100%;
+}
+
+/* AAAS-1652 */
+/* Search results on custom pages don't show filter button for some reason. This cleans it up. */
+.search-noNav .search-result__nav {
+	margin: 0;
+	border: 0 !important;
+}
+
+
+/* Fix old migrated blogs that don't have paragraph tags */
+.do-blog .news-article-content br {
+	content: "";
+	margin-bottom: 1rem;
+	display: block;
+}
+
+/* AAAS-1696 */
+article .related-item[data-type="HAS_LETTER"] {
+	display: none;
+}
+
+/* AAAS-1750 */
+/*.toc__section--special .card-related.text-darker-gray.bg-very-light-gray {
+    background-color: #262626!important;
+}*/
+
+/*.toc__section--special .text-primary,
+.toc__section--special .text-deep-gray {
+    color: white!important;
+}*/
+
+/* AAAS-1074 */
+figcaption .notes, figcaption .caption {
+    display: inline;
+}
+
+/* For Reader Responses AAAS-942 */
+.reader-responses {
+	font-family: 'PT Serif' ,serif;
+	font-size: .9rem;
+}
+.reader-responses .nested {
+	margin-top: 1rem;
+	padding-left: .9rem;
+	border-left: 1px solid #ddd;
+}
+.reader-responses .nested p {
+	color: #595959;
+}
+.responseAuthor {
+	font-family: 'Roboto', sans-serif;
+	font-size: .8rem;
+}
+.responseAuthor .name {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.responseAuthor .affiliation {
+	color: #595959;
+}
+/* For the migrated content's author info */
+.reader-responses small {
+	font-family: 'Roboto', sans-serif;
+}
+
+
+
+/* Advanced Page styles (AAAS-1367) */
+.advanced-page p {
+	font-family: 'PT Serif', serif;
+	margin-top: 0.5rem;
+	font-size: 1.125rem;
+}
+.advanced-page h2 {
+	margin: 2.5rem 0 1rem;
+	font-family: Roboto, sans-serif;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+.advanced-page h3 {
+	font-family: Roboto, sans-serif;
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+.advanced-page h4, .advanced-page h5, .advanced-page h6 {
+	font-family: Roboto, sans-serif;
+	font-size: 1rem;
+	font-weight: bold;
+}
+.advanced-page .subsecTitle {
+	font-weight: strong;
+	font-family: Roboto, sans-serif;
+	font-size: 1rem;
+}
+.advanced-page ol {
+	font-family: Roboto, sans-serif;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	padding-left: 0;
+}
+.advanced-page ol > li {
+	margin-left: 1.125rem;
+}
+.advanced-page li {
+	font-family: 'PT Serif', serif;
+	font-size: 1.125rem;
+}
+.advanced-page ul li {
+	margin-bottom: 1rem;
+}
+.advanced-page ul {
+	margin-top: 1rem;
+	list-style: disc;
+}
+.advanced-page ul ul {
+	list-style: circle;
+}
+.advanced-page ul.list-inline {
+	padding-left: 0;
+	list-style: none;
+	font-size: 0.875rem;
+	letter-spacing: 0.04em;
+}
+.advanced-page ul.list-inline li {
+	display: inline-block;
+	margin-bottom: 0.5rem;
+	font-family: Roboto, sans-serif;
+}
+.advanced-page ul.list-inline li a {
+	margin-right: 1rem;
+	padding-right: 1rem;
+	font-size: .875rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #ca2015;
+	border-right: 1px solid #7f7f7f;
+}
+.advanced-page ul.list-inline li:last-of-type a {
+	margin-right: 0;
+	padding-right: 0;
+	border-right: 0;
+}
+.advanced-page section.bg-very-light-gray p {
+	margin-top: 0;
+}
+
+/* Pull Quote Styles on News - AAAS-1713 */
+.news-article-body .quotation, .news-article-body .quotation:hover {
+	background: none;
+}
+.news-article-body .quotation__source li {
+	font-size: inherit;
+	font-family: inherit;
+	line-height: inherit;
+}
+.news-article-body .quotation__text * {
+	font-size: inherit;
+	font-family: inherit;
+	line-height: inherit;
+}
+
+/* Parallax video - AAAS-1943 */
+.news-article--featured .parallax video {
+	top: -20%;
+}
+
+/* Brightcove video bg - AAAS-1972 */
+
+/*
+.vjs-control-bar, .vjs-dock-text, .vjs-loading-spinner, .vjs-big-play-button {
+	display: none !important;
+}
+*/
+
+/*
+.video-js .vjs-tech {
+    object-fit: cover;
+}
+*/
+
+.news-article--featured .parallax__element, .news-article--featured .parallax__element .vjs-tech {
+    o-object-fit: cover; 
+    object-fit: cover;
+} 
+
+.news-article--featured .parallax__element .vjs-poster {
+    background-size: cover;
+}
+
+/* space between paragraphs in comments */
+.eletters-comment p {
+    margin-bottom: 1rem!important;
+}
+
+/* AAAS-1371 */
+.core-container h2 .core-label {
+    color: #ca2015;
+    display: block;
+    font-size: .625rem;
+    letter-spacing: .04rem;
+    text-transform: uppercase;
+}
+.core-container div[data-type="contrib"][role="paragraph"] {
+    color: #262626!important;
+    margin-top: -20px;
+    padding-bottom: 10px;
+}
+
+/*
+.sections-navbar__container li .core-label {
+    display: none;
+}*/
+
+/* LIT-446633 */
+.card-related.text-white.bg-dark {
+    background-color: #f5f5f5!important;
+    color: #262626!important;
+}
+
+.card--inverse .card-related.text-white.bg-dark {
+    background-color: #262626!important;
+    color: white!important;
+}
+
+.card-related.text-white.bg-dark .text-uppercase.text-xxs.font-weight-bold.text-reset {
+    color: #ca2015!important;
+}
+
+.card--inverse .card-related.text-white.bg-dark .text-uppercase.text-xxs.font-weight-bold.text-reset {
+    color: white!important;
+}
+
+.card--inverse .icon-pdf:before, .card--inverse .card-meta, .card--inverse .text-darker-gray, .card--inverse a.text-darker-gray:focus, .card--inverse a.text-darker-gray:hover {
+    color: white!important;
+}
+
+.card--inverse .bg-very-light-gray {
+    background-color: #262626!important;
+}
+
+/* LIT-455332 */
+.card-meta__item:first-child {
+    transform: translate(0);
+}
+
+/* AAAS-808 */
+.news-article-content--featured .news-article__figure .news-article__figure__upper-caption p, 
+.news-article-content .news-article__figure .news-article__figure__upper-caption p {
+    display: block;
+    color: #262626;
+}
+
+/* AAAS-926 */
+figcaption .notes {
+    color: #707070!important;
+}
+
+article[data-design] figure.graphic>figcaption .heading,
+article[data-design] figure.table>figcaption .heading {
+    text-transform: none!important;
+}
+
+/* AAAS-907 */
+.custom-publishing-pdf-links i.icon-pdf {
+    font-size: 1.1rem;
+    margin-right: 2px;
+}
+
+/* AAAS-2620 */
+.news-article__slideshow-figcaption {
+line-height: 1.125rem;
+}
+
+/* AAAS-2790 */
+.SPJ-CONTENT .core-supplementary-material .core-description .heading
+{
+display: none;
+}
+
+/* AAAS-2614 */
+.SPJ-CONTENT .sections-navbar__container li .core-label 
+{ display: block!important;
+}
+
+/*AAAS-1662*/
+.SPJ-citation{
+    margin-left: -5px !important;
+}
+   
+/*Hide Share Widget
+#core-collateral-share .section--wrapper > section:not(:empty) {
+	border-bottom: 0 !important
+	}
+
+#core-collateral-share .section--wrapper>div:last-child, #core-collateral-share .section--wrapper>section:last-child, #core-collateral-share [role=tabpanel]>div:last-child, #core-collateral-share [role=tabpanel]>section:last-child {
+    border-bottom: none;
+    display: none;
+}
+#fv__lightbox > div.fv__toolbar > div.fv__toolbar__holster > a.fv__share {
+	display:none
+}*/
