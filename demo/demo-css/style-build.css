@@ -17060,7 +17060,7 @@ a.text-dark:hover {
 
 @font-face {
   font-family: icomoon;
-  src: url(../fonts/icomoon-cd896f23d306ab0b45bf717072bfd670.ttf) format("truetype"), url(../fonts/icomoon-f170d08c091c7128e9b82efe1b163bb6.woff) format("woff"), url(../images/icomoon-b001b0cadb7d3d6331f001097db40194.svg#icomoon) format("svg");
+  src: url(../demo-fonts/icomoon-cd896f23d306ab0b45bf717072bfd670.ttf) format("truetype"), url(../demo-fonts/icomoon-f170d08c091c7128e9b82efe1b163bb6.woff) format("woff"), url(../demo-images/site-images/icomoon-b001b0cadb7d3d6331f001097db40194.svg#icomoon) format("svg");
   font-weight: 400;
   font-style: normal;
   font-display: block
@@ -17445,28 +17445,28 @@ a.text-dark:hover {
   font-family: "PT Serif";
   font-style: normal;
   font-weight: 400;
-  src: local("PT Serif"), local("PTSerif-Regular"), url(../fonts/pt-serif-v12-latin-ext_latin-regular-de7665f2292296afa10f5ba52261da23.woff2) format("woff2"), url(../fonts/pt-serif-v12-latin-ext_latin-regular-3723eaa458f5cd7f632816a50ca01d5a.woff) format("woff")
+  src: local("PT Serif"), local("PTSerif-Regular"), url(../demo-fonts/pt-serif-v12-latin-ext_latin-regular-de7665f2292296afa10f5ba52261da23.woff2) format("woff2"), url(../demo-fonts/pt-serif-v12-latin-ext_latin-regular-3723eaa458f5cd7f632816a50ca01d5a.woff) format("woff")
 }
 
 @font-face {
   font-family: "PT Serif";
   font-style: italic;
   font-weight: 400;
-  src: local("PT Serif Italic"), local("PTSerif-Italic"), url(../fonts/pt-serif-v12-latin-ext_latin-italic-3c79c8ba9db29e48f5e91b67272cab89.woff2) format("woff2"), url(../fonts/pt-serif-v12-latin-ext_latin-italic-460f1c427308c14d07f4e10271b7134a.woff) format("woff")
+  src: local("PT Serif Italic"), local("PTSerif-Italic"), url(../demo-fonts/pt-serif-v12-latin-ext_latin-italic-3c79c8ba9db29e48f5e91b67272cab89.woff2) format("woff2"), url(../demo-fonts/pt-serif-v12-latin-ext_latin-italic-460f1c427308c14d07f4e10271b7134a.woff) format("woff")
 }
 
 @font-face {
   font-family: "PT Serif";
   font-style: normal;
   font-weight: 700;
-  src: local("PT Serif Bold"), local("PTSerif-Bold"), url(../fonts/pt-serif-v12-latin-ext_latin-700-45cf198811efece76e0d7653e134417c.woff2) format("woff2"), url(../fonts/pt-serif-v12-latin-ext_latin-700-8bd248165cc3cb4abbefbd413ee46bd8.woff) format("woff")
+  src: local("PT Serif Bold"), local("PTSerif-Bold"), url(../demo-fonts/pt-serif-v12-latin-ext_latin-700-45cf198811efece76e0d7653e134417c.woff2) format("woff2"), url(../demo-fonts/pt-serif-v12-latin-ext_latin-700-8bd248165cc3cb4abbefbd413ee46bd8.woff) format("woff")
 }
 
 @font-face {
   font-family: "PT Serif";
   font-style: italic;
   font-weight: 700;
-  src: local("PT Serif Bold Italic"), local("PTSerif-BoldItalic"), url(../fonts/pt-serif-v12-latin-ext_latin-700italic-9e384f1888100dc730ff86c17c4ba8df.woff2) format("woff2"), url(../fonts/pt-serif-v12-latin-ext_latin-700italic-8196efd3f9d229d651b59f7f66bb063f.woff) format("woff")
+  src: local("PT Serif Bold Italic"), local("PTSerif-BoldItalic"), url(../demo-fonts/pt-serif-v12-latin-ext_latin-700italic-9e384f1888100dc730ff86c17c4ba8df.woff2) format("woff2"), url(../demo-fonts/pt-serif-v12-latin-ext_latin-700italic-8196efd3f9d229d651b59f7f66bb063f.woff) format("woff")
 }
 
 .overflow-x-visible {
@@ -18857,7 +18857,7 @@ body:not(.mouse-user) .cover-image__popup-view__wrapper :focus {
   bottom: -2rem;
   left: 0;
   width: 100%;
-  background: url(../images/about-section-bg-1f78772ef9a9021b74734ead049631bb.jpg);
+  background: url(../demo-images/site-images/about-section-bg-1f78772ef9a9021b74734ead049631bb.jpg);
   background-repeat: no-repeat;
   background-position: 80% -140px;
   background-position: 80% -8.75rem;
@@ -21370,7 +21370,7 @@ body.loaded .hero__scroller .chevron-1 {
 }
 
 .hero:before {
-  background: url(../images/hero-overlay-f84f11425c87252a7b46246359a41504.png)
+  background: url(../demo-images/site-images/hero-overlay-f84f11425c87252a7b46246359a41504.png)
 }
 
 .hero .parallax__element {
@@ -22404,7 +22404,7 @@ body.loaded .hero__scroller .chevron-1 {
   width: 6.25rem;
   height: 100px;
   height: 6.25rem;
-  background: url(../images/loading-e9545c6661ed51d40e3f7916569272f2.gif) no-repeat
+  background: url(../demo-images/site-images/loading-e9545c6661ed51d40e3f7916569272f2.gif) no-repeat
 }
 
 .loading-overlay .loading-message {
@@ -28790,8 +28790,8 @@ input[type=number] {
 
 @font-face {
   font-family: icomoon;
-  src: url(../fonts/icomoon-025bb8e4e99428c822516e6d7805216d.eot);
-  src: url(../fonts/icomoon-025bb8e4e99428c822516e6d7805216d.eot#iefix) format("embedded-opentype"), url(../fonts/icomoon-c5e2abe8e58595ca0b50ef4b09527194.ttf) format("truetype"), url(../fonts/icomoon-ec6dbd27e7a1f63e61550c5444a516d9.woff) format("woff"), url(../images/icomoon-f687c068a74acf51a845c8b355aa13c2.svg#icomoon) format("svg");
+  src: url(../demo-fonts/icomoon-025bb8e4e99428c822516e6d7805216d.eot);
+  src: url(../demo-fonts/icomoon-025bb8e4e99428c822516e6d7805216d.eot#iefix) format("embedded-opentype"), url(../demo-fonts/icomoon-c5e2abe8e58595ca0b50ef4b09527194.ttf) format("truetype"), url(../demo-fonts/icomoon-ec6dbd27e7a1f63e61550c5444a516d9.woff) format("woff"), url(../demo-images/site-images/icomoon-f687c068a74acf51a845c8b355aa13c2.svg#icomoon) format("svg");
   font-weight: 400;
   font-style: normal;
   font-display: block
@@ -28941,112 +28941,112 @@ input[type=number] {
   font-family: Roboto;
   font-style: normal;
   font-weight: 400;
-  src: local(""), url(../fonts/roboto-v20-latin-ext_latin-regular-c5bf51b68dc9fd7fe944d8947fe12518.woff2) format("woff2"), url(../fonts/roboto-v20-latin-ext_latin-regular-d679a90608a65cc9394f67448ca2094a.woff) format("woff")
+  src: local(""), url(../demo-fonts/roboto-v20-latin-ext_latin-regular-c5bf51b68dc9fd7fe944d8947fe12518.woff2) format("woff2"), url(../demo-fonts/roboto-v20-latin-ext_latin-regular-d679a90608a65cc9394f67448ca2094a.woff) format("woff")
 }
 
 @font-face {
   font-family: Roboto;
   font-style: italic;
   font-weight: 400;
-  src: local(""), url(../fonts/roboto-v20-latin-ext_latin-italic-a586006328cfe80de786d8d63d47ab94.woff2) format("woff2"), url(../fonts/roboto-v20-latin-ext_latin-italic-c36a51c52597b394bf7967203da46176.woff) format("woff")
+  src: local(""), url(../demo-fonts/roboto-v20-latin-ext_latin-italic-a586006328cfe80de786d8d63d47ab94.woff2) format("woff2"), url(../demo-fonts/roboto-v20-latin-ext_latin-italic-c36a51c52597b394bf7967203da46176.woff) format("woff")
 }
 
 @font-face {
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  src: local(""), url(../fonts/roboto-v20-latin-ext_latin-500-15431381890720a5a4b62b33c8ae06c5.woff2) format("woff2"), url(../fonts/roboto-v20-latin-ext_latin-500-3d9446f210892af971a3854d0f984ae9.woff) format("woff")
+  src: local(""), url(../demo-fonts/roboto-v20-latin-ext_latin-500-15431381890720a5a4b62b33c8ae06c5.woff2) format("woff2"), url(../demo-fonts/roboto-v20-latin-ext_latin-500-3d9446f210892af971a3854d0f984ae9.woff) format("woff")
 }
 
 @font-face {
   font-family: Roboto;
   font-style: italic;
   font-weight: 500;
-  src: local(""), url(../fonts/roboto-v20-latin-ext_latin-500italic-2a25809d5e31a796946e24c17706f443.woff2) format("woff2"), url(../fonts/roboto-v20-latin-ext_latin-500italic-23dec46bfe3935d9d50f20cf88c62484.woff) format("woff")
+  src: local(""), url(../demo-fonts/roboto-v20-latin-ext_latin-500italic-2a25809d5e31a796946e24c17706f443.woff2) format("woff2"), url(../demo-fonts/roboto-v20-latin-ext_latin-500italic-23dec46bfe3935d9d50f20cf88c62484.woff) format("woff")
 }
 
 @font-face {
   font-family: Roboto;
   font-style: normal;
   font-weight: 700;
-  src: local(""), url(../fonts/roboto-v20-latin-ext_latin-700-52bb58c8cb04cf3eea4f9ac0afa1d1f6.woff2) format("woff2"), url(../fonts/roboto-v20-latin-ext_latin-700-d0cc855e64aca1072711f49d1a38ca0c.woff) format("woff")
+  src: local(""), url(../demo-fonts/roboto-v20-latin-ext_latin-700-52bb58c8cb04cf3eea4f9ac0afa1d1f6.woff2) format("woff2"), url(../demo-fonts/roboto-v20-latin-ext_latin-700-d0cc855e64aca1072711f49d1a38ca0c.woff) format("woff")
 }
 
 @font-face {
   font-family: Roboto;
   font-style: italic;
   font-weight: 700;
-  src: local(""), url(../fonts/roboto-v20-latin-ext_latin-700italic-df4326e0d7567c538f477b25dee6591a.woff2) format("woff2"), url(../fonts/roboto-v20-latin-ext_latin-700italic-d10759b089c9f63453c01485af6e549c.woff) format("woff")
+  src: local(""), url(../demo-fonts/roboto-v20-latin-ext_latin-700italic-df4326e0d7567c538f477b25dee6591a.woff2) format("woff2"), url(../demo-fonts/roboto-v20-latin-ext_latin-700italic-d10759b089c9f63453c01485af6e549c.woff) format("woff")
 }
 
 @font-face {
   font-family: Roboto;
   font-style: normal;
   font-weight: 900;
-  src: local(""), url(../fonts/roboto-v20-latin-ext_latin-900-d8e97377c715fe514986481ed626cd01.woff2) format("woff2"), url(../fonts/roboto-v20-latin-ext_latin-900-51db4691b982b906d8cd9de2e2c230fd.woff) format("woff")
+  src: local(""), url(../demo-fonts/roboto-v20-latin-ext_latin-900-d8e97377c715fe514986481ed626cd01.woff2) format("woff2"), url(../demo-fonts/roboto-v20-latin-ext_latin-900-51db4691b982b906d8cd9de2e2c230fd.woff) format("woff")
 }
 
 @font-face {
   font-family: Roboto;
   font-style: italic;
   font-weight: 900;
-  src: local(""), url(../fonts/roboto-v20-latin-ext_latin-900italic-01c8c1332cf0b9a74d7220cfce64320f.woff2) format("woff2"), url(../fonts/roboto-v20-latin-ext_latin-900italic-f1d0e01b1c5790314aa444fafcee913d.woff) format("woff")
+  src: local(""), url(../demo-fonts/roboto-v20-latin-ext_latin-900italic-01c8c1332cf0b9a74d7220cfce64320f.woff2) format("woff2"), url(../demo-fonts/roboto-v20-latin-ext_latin-900italic-f1d0e01b1c5790314aa444fafcee913d.woff) format("woff")
 }
 
 @font-face {
   font-family: Roboto Condensed;
   font-style: normal;
   font-weight: 400;
-  src: local(""), url(../fonts/RobotoCondensed-Light-885e5558c90864ddb72ad486f36470cc.ttf)
+  src: local(""), url(../demo-fonts/RobotoCondensed-Light-885e5558c90864ddb72ad486f36470cc.ttf)
 }
 
 @font-face {
   font-family: Roboto Condensed;
   font-style: italic;
   font-weight: 400;
-  src: local(""), url(../fonts/RobotoCondensed-LightItalic-f0177f3fd234ac8664509f19aef620fb.ttf)
+  src: local(""), url(../demo-fonts/RobotoCondensed-LightItalic-f0177f3fd234ac8664509f19aef620fb.ttf)
 }
 
 @font-face {
   font-family: Roboto Condensed;
   font-style: normal;
   font-weight: 500;
-  src: local(""), url(../fonts/RobotoCondensed-Regular-52ee8b598488b1ffbaa93e50cbd6a2f4.ttf)
+  src: local(""), url(../demo-fonts/RobotoCondensed-Regular-52ee8b598488b1ffbaa93e50cbd6a2f4.ttf)
 }
 
 @font-face {
   font-family: Roboto Condensed;
   font-style: italic;
   font-weight: 500;
-  src: local(""), url(../fonts/RobotoCondensed-Italic-d6fc5ec5403ec65bdaecfe44b7b84402.ttf)
+  src: local(""), url(../demo-fonts/RobotoCondensed-Italic-d6fc5ec5403ec65bdaecfe44b7b84402.ttf)
 }
 
 @font-face {
   font-family: Roboto Condensed;
   font-style: normal;
   font-weight: 700;
-  src: local(""), url(../fonts/RobotoCondensed-Bold-cbd4e701269338259ee0b39a0b768167.ttf)
+  src: local(""), url(../demo-fonts/RobotoCondensed-Bold-cbd4e701269338259ee0b39a0b768167.ttf)
 }
 
 @font-face {
   font-family: Roboto Condensed;
   font-style: italic;
   font-weight: 700;
-  src: local(""), url(../fonts/RobotoCondensed-BoldItalic-c783051f11a8f369e8acc7adfcb5478d.ttf)
+  src: local(""), url(../demo-fonts/RobotoCondensed-BoldItalic-c783051f11a8f369e8acc7adfcb5478d.ttf)
 }
 
 @font-face {
   font-family: Roboto Condensed;
   font-style: normal;
   font-weight: 900;
-  src: local(""), url(../fonts/RobotoCondensed-Bold-cbd4e701269338259ee0b39a0b768167.ttf)
+  src: local(""), url(../demo-fonts/RobotoCondensed-Bold-cbd4e701269338259ee0b39a0b768167.ttf)
 }
 
 @font-face {
   font-family: Roboto Condensed;
   font-style: italic;
   font-weight: 900;
-  src: local(""), url(../fonts/RobotoCondensed-BoldItalic-c783051f11a8f369e8acc7adfcb5478d.ttf)
+  src: local(""), url(../demo-fonts/RobotoCondensed-BoldItalic-c783051f11a8f369e8acc7adfcb5478d.ttf)
 }
 
 .goBack--section {
