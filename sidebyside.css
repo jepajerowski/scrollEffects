@@ -29,10 +29,14 @@
 
 
   #scroll-container.image-right .scroll-captions .step:first-child {
-    padding-top: 200px;
-    background-color: transparent;
+  /*  padding-top: 200px;
+    background-color: transparent;*/
   }
 
+}
+
+#scroll-container.image-right.stop-transitions figure{
+    transition: none!important;
 }
 
 @media(prefers-reduced-motion) {
@@ -44,6 +48,15 @@
 }
 
 /*debug*/
+
+/*#scroll-container .scroll-captions .step{
+    border: 1px solid darkcyan;
+}
+
+#scroll-container figure img[data-overlay="4"]{
+    border: 1px solid hotpink;
+}*/
+
 /*#scroll-container figure {
   background-color: #dd00aa44;
 }

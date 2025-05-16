@@ -12,6 +12,14 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
   var overlayImages = figure.selectAll('.overlayimg');
   var baseImage = figure.select('.baseimg');
 
+  step.each(function(){
+    thisStep = d3.select(this);
+    var wrapper = thisStep.append("div").attr("class","step-inner");
+    thisStep.selectAll(':scope > :not(.step-inner)').each(function(){
+      wrapper.node().appendChild(this);
+    });
+  });
+
   var scroller = scrollama();
 
   function handleResize() {

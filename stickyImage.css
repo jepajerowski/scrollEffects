@@ -18,6 +18,28 @@
   left: 0;
 }
 
+
+/*trying to cover up progress indicator, but it's extending page to the right*/ 
+/*#scroll-container:before, #scroll-container:after{
+    content: "";
+    position: absolute;
+     top: 0;
+    height: 100%;
+    width: 1.5rem;
+}
+
+#scroll-container:before {
+    background: linear-gradient(270deg, #fff 0, #fff 35%, #fff);
+    background: linear-gradient(270deg, #fff 0, #fff 35%, hsla(0, 0%, 100%, 0));
+    left: -1.5rem;
+}
+
+#scroll-container:after {
+    background: linear-gradient(90deg, #fff 0, #fff 35%, #fff);
+    background: linear-gradient(90deg, #fff 0, #fff 35%, hsla(0, 0%, 100%, 0));
+    right: -1.5rem;
+}*/
+
 #scroll-container .scroll-captions, #scroll-container .scroll-captions--on-dark {
   position: relative;
   width: 100%;
@@ -26,36 +48,38 @@
 }
 
 .step {
-  margin: 0 auto 80rem auto;
+  margin: 0 auto 4px auto;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .step:last-child {
   margin-bottom: 0;
 }
 
-#scroll-container .scroll-captions .step{
+#scroll-container .scroll-captions .step>*{
   background-color: rgba(255, 255, 255, 0.9);
   color: #262626;
 }
 
-#scroll-container .scroll-captions--on-dark .step {
+#scroll-container .scroll-captions--on-dark .step>*{
  background-color: #0b0b0b;
   color: white;
+    padding: 1rem;
 }
 
 .step h3 {
   font-family: Roboto, Helvetica, Arial, sans-serif;
   font-weight: bold;
   text-align: left;
-  padding: 1rem 1rem 0 1rem;
   font-size: 20px;
-  margin-bottom: .5rem;
+  margin-bottom:.5rem;
 }
 
 .step p {
   font-family: Roboto, Helvetica, Arial, sans-serif;
   text-align: left;
-  padding: 0 1rem 1rem 1rem;
   font-size: 1rem;
   line-height: 1.375rem;
 }

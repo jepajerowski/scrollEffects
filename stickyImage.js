@@ -10,6 +10,14 @@ function stickyScroll(imgWidth, imgHeight, figureId){
   var lastStep = captions.select('.step:last-child');
 
 
+  step.each(function(){
+    thisStep = d3.select(this);
+    var wrapper = thisStep.append("div").attr("class","step-inner");
+    thisStep.selectAll(':scope > :not(.step-inner)').each(function(){
+      wrapper.node().appendChild(this);
+    });
+  });
+
   function handleResize() {
     headerHeight = $(".main-header").outerHeight();
 

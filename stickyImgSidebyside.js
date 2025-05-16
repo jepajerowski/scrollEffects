@@ -1,7 +1,12 @@
 var headerHeight = 56;
+var scrollyOffset = 0.5;
 
 function stickyScroll(imgWidth, imgHeight, figureId) {
 
+  var viewportHeight = window.innerHeight - headerHeight;
+  scrollyOffset = Math.floor(viewportHeight / 2 + headerHeight) + 'px';
+
+  //set up selections
   var wrapper = d3.select('#' + figureId);
   var scrolly = wrapper.select('#scroll-container');
   var scrollParent = scrolly.node().parentNode;
@@ -9,13 +14,30 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
   var imageWrapper = figure.select('.image-wrapper');
   var captions = scrolly.select('.scroll-captions');
   var step = captions.selectAll('.step');
+  var firstStep = captions.select('.step:first-child');
   var lastStep = captions.select('.step:last-child');
   var overlayImages = figure.selectAll('.overlayimg');
   var baseImage = figure.select('.baseimg');
 
+  // check for image right variation
+  var isImageRight = scrolly.attr('class') == 'image-right';
+
+
+  // give step contents a wrapper
+  step.each(function(){
+    thisStep = d3.select(this);
+    var wrapper = thisStep.append("div").attr("class","step-inner");
+    thisStep.selectAll(':scope > :not(.step-inner)').each(function(){
+      wrapper.node().appendChild(this);
+    });
+  });
+
+
   var scroller = scrollama();
 
   function handleResize() {
+    stopTransitions();
+
     headerHeight = $(".main-header").outerHeight();
 
     var aspectRatio = imgHeight / imgWidth;
@@ -25,6 +47,7 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
     var figureHeight = figureWidth * aspectRatio;
 
     var figureWidthAsPercent = figureWidth / scrollyWidth;
+    scrollyOffset = Math.floor(viewportHeight / 2 + headerHeight) + 'px';
 
     scrollyWidth = scrollParent.offsetWidth;
     figureWidth = scrollyWidth * figureWidthAsPercent;
@@ -38,61 +61,77 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
 
 
     var figureMarginTop = (viewportHeight - figureHeight) / 2 + headerHeight;
+    var lastStepPadding = isImageRight ? (figureHeight - lastStep.select('.step-inner').node().offsetHeight) / 2 : lastStepPadding = viewportHeight / 2 + figureHeight / 2;
 
     var stepMT = Math.floor(viewportHeight * 0.9);
-    step.style('margin-bottom', stepMT + 'px');
-    lastStep.style('margin-bottom', '0px');
+    step
+      .style('padding-top', stepMT / 2 + 'px')
+      .style('padding-bottom', stepMT / 2 +'px');
+    lastStep.style('padding-bottom', lastStepPadding + '0px');
     scrolly
       .style('width', scrollyWidth + 'px');
-    captions
-      .style('padding-top', (viewportHeight / 2) + 'px')
-      .style('padding-bottom', viewportHeight + 'px ');
+    //captions
+    //.style('padding-top', (viewportHeight / 2) + 'px')
+    //.style('padding-bottom', viewportHeight + 'px ');
     figure
       .style('top', figureMarginTop + 'px');
     imageWrapper
       .style('padding-top', aspectRatio * 100 + '%');
 
     scroller.resize();
+    scroller.offset(scrollyOffset);
+
+
 
 
   }
 
+  //pause transitions temporarily to prevent jumpiness on resize
+  function stopTransitions() {
+    const classes = scrolly.node().classList;
+    let timer = 0;
+    window.addEventListener('resize', function() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      } else
+        classes.add('stop-transitions');
+
+      timer = setTimeout(() => {
+        classes.remove('stop-transitions');
+        timer = null;
+      }, 100);
+    });
+  }
+
+
+  // resets visibility of previous and future steps, in case of resize or reload mid-scroll
   function stepVisibility(response) {
     overlayImages.each(function() {
       var imgNum = d3.select(this).attr('data-overlay');
       if (imgNum < response.index) {
-        d3.select(this).style('opacity', 1);
+        d3.select(this).classed('visible', true);
       } else if (imgNum > response.index) {
-        d3.select(this).style('opacity', 0);
+        d3.select(this).classed('visible', false);
       }
     });
-  }
-
-  function stepChange(response) {
-    stepVisibility(response);
-    if (response.direction === 'down') {
-      figure.select('[data-overlay=\"' + response.index + '\"]').transition().duration(800).ease(d3.easeLinear).style("opacity", 1);
-    } else if (response.direction === 'up') {
-      figure.select('[data-overlay=\"' + response.index + '\"]').transition().duration(400).ease(d3.easeLinear).style("opacity", 0);
-    }
-
 
   }
 
   function handleStepEnter(response) {
-    console.log(response);
-    stepChange(response);
-
-      figure.classed("translate", true);
+    stepVisibility(response);
+    figure.select('[data-overlay=\"' + response.index + '\"]').classed('visible', true);
+    figure.classed("translate", true);
   }
 
   function handleStepExit(response) {
-    stepChange(response);
-
-  if (response.direction === 'up' && response.index == 0) {
-      figure.classed('translate', false);
-    } else{
-      figure.classed('translate',true);
+    if (response.direction === 'up') {
+      figure.select('[data-overlay=\"' + response.index + '\"]').classed('visible', false);
+      if (response.index == 0) {
+        figure.classed('translate', false);
+      }
+    } else if (response.direction === 'down') {
+      figure.select('[data-overlay=\"' + response.index + '\"]').classed('visible', true);
     }
   }
 
@@ -101,7 +140,7 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
   handleResize();
   scroller.setup({
       step: '#' + figureId + ' #scroll-container .scroll-captions .step',
-      offset: 0.9,
+      offset: scrollyOffset,
       debug: false
     })
     .onStepEnter(handleStepEnter)
