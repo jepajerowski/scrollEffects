@@ -1,0 +1,128 @@
+/*base styles for sticky image*/
+#scroll-container {
+  position: relative;
+  display: block;
+  margin: auto;
+}
+#scroll-container figure {
+  position: -webkit-sticky;
+  position: sticky;
+  margin: 0 auto;
+  width: 100%;
+}
+#scroll-container figure img {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#scroll-container .scroll-captions, #scroll-container .scroll-captions.on-dark {
+  position: relative;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 520px) {
+  #scroll-container .scroll-captions, #scroll-container .scroll-captions.on-dark {
+    width: 22rem;
+  }
+}
+#scroll-container .scroll-captions .step {
+  margin: 0 auto 4px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#scroll-container .scroll-captions .step .step-inner {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #262626;
+  padding: 1rem;
+}
+#scroll-container .scroll-captions .step h3 {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 0.5rem;
+}
+#scroll-container .scroll-captions .step p {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.375rem;
+}
+#scroll-container .scroll-captions.on-dark .step-inner {
+  background-color: #0b0b0b;
+  color: white;
+}
+#scroll-container .scroll-captions:last-child {
+  margin-bottom: 0;
+}
+
+#scroll-container .overlayimg {
+  opacity: 0;
+  transition: opacity 400ms;
+}
+#scroll-container .overlayimg.visible {
+  opacity: 1;
+}
+#scroll-container.stop-transitions .overlayimg {
+  transition-delay: 200ms;
+}
+
+@media (min-width: 520px) and (max-width: 767.98px) {
+  #scroll-container.image-right .scroll-captions {
+    width: 80%;
+    margin: auto;
+  }
+}
+@media (min-width: 768px) {
+  #scroll-container.image-right figure {
+    margin: 0;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    width: 66%;
+    transition: margin-left 800ms ease, transform 800ms ease;
+  }
+}
+@media (min-width: 768px) and (prefers-reduced-motion) {
+  #scroll-container.image-right figure {
+    margin-left: 100%;
+    transform: translateX(-100%);
+    transition: none;
+  }
+}
+@media (min-width: 768px) {
+  #scroll-container.image-right figure.translate {
+    margin-left: 100%;
+    transform: translateX(-100%);
+  }
+  #scroll-container.image-right .scroll-captions {
+    width: 33.33%;
+  }
+}
+#scroll-container.image-right.stop-transitions figure {
+  transition: none !important;
+}
+
+/*debug*/
+/*#scroll-container .scroll-captions .step{
+    border: 1px solid darkcyan;
+}
+
+#scroll-container figure img[data-overlay="4"]{
+    border: 1px solid hotpink;
+}*/
+/*#scroll-container figure {
+  background-color: #dd00aa44;
+}
+
+#scroll-container .scroll-captions {
+  background-color: #dd996644;
+}
+
+#scroll-container {
+  background-color: #44dd4433;
+}*/
+
+/*# sourceMappingURL=sidebyside.css.map */

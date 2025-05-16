@@ -1,0 +1,19 @@
+@use "stickyImage";
+
+
+#scroll-container{
+  .overlayimg{
+    opacity: 0;
+    transition: opacity 400ms;
+
+    &.visible{
+      opacity: 1;
+    }
+  }
+
+  &.stop-transitions{
+    .overlayimg{
+      transition-delay: 200ms;
+    }
+  }
+}

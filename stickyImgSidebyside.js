@@ -80,11 +80,9 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
 
     scroller.resize();
     scroller.offset(scrollyOffset);
-
-
-
-
   }
+
+
 
   //pause transitions temporarily to prevent jumpiness on resize
   function stopTransitions() {
