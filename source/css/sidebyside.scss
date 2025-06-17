@@ -13,6 +13,7 @@
     }
 
     @media (min-width:768px) {
+
       figure {
         margin: 0;
         margin-left: 50%;
@@ -27,6 +28,7 @@
         }
       }
 
+      &.no-transitions figure,
       figure.translate {
         margin-left: 100%;
         transform: translateX(-100%);
@@ -37,7 +39,7 @@
       }
     }
 
-    &.stop-transitions {
+    &.stop-transitions, &.no-transitions {
       figure {
         transition: none !important;
       }
@@ -48,24 +50,3 @@
 
 
 
-/*debug*/
-
-/*#scroll-container .scroll-captions .step{
-    border: 1px solid darkcyan;
-}
-
-#scroll-container figure img[data-overlay="4"]{
-    border: 1px solid hotpink;
-}*/
-
-/*#scroll-container figure {
-  background-color: #dd00aa44;
-}
-
-#scroll-container .scroll-captions {
-  background-color: #dd996644;
-}
-
-#scroll-container {
-  background-color: #44dd4433;
-}*/

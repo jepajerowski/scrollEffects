@@ -1,6 +1,11 @@
 var headerHeight = 56;
 var scrollyOffset = 0.5;
 
+//const isReduced = window.matchMedia(`(prefers-reduced-motion: reduce)`) === true || window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true;
+
+
+
+
 function stickyScroll(imgWidth, imgHeight, figureId) {
 
   var viewportHeight = window.innerHeight - headerHeight;
@@ -18,7 +23,9 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
   var overlayImages = figure.selectAll('.overlayimg');
   var baseImage = figure.select('.baseimg');
 
-  var isImageRight = scrolly.attr('class') == 'image-right';
+  var isImageRight = scrolly.classed('image-right');
+  var isFullPage = scrolly.classed('full-page');
+  var isWipe = scrolly.classed('wipe');
 
   // wrap step contents
   step.each(function() {
@@ -28,6 +35,19 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
       wrapper.node().appendChild(this);
     });
   });
+
+  if (isWipe) {
+    var maskProgress = 100;
+    overlayImages.each(function() {
+      var dataOverlay = d3.select(this).attr('data-overlay');
+      var wrapper = d3.select(this.parentNode).append("div")
+        .attr('class', 'image-mask overlayimg')
+        .attr('data-overlay', dataOverlay)
+        .attr('style', "-webkit-mask-image: linear-gradient(transparent " + maskProgress + "%, black " + maskProgress + "%); mask-image: linear-gradient(transparent " + maskProgress + "%, black " + maskProgress + "%)");
+      wrapper.node().appendChild(this);
+    });
+  }
+
 
   var scroller = scrollama();
 
@@ -46,40 +66,81 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
     var figureWidthAsPercent = figureWidth / scrollyWidth;
     scrollyOffset = Math.floor(viewportHeight / 2 + headerHeight) + 'px';
 
-    scrollyWidth = scrollParent.offsetWidth;
-    figureWidth = scrollyWidth * figureWidthAsPercent;
-    figureHeight = figureWidth * aspectRatio;
 
-    if (figureHeight > viewportHeight) {
+    //set values
+    scrollyWidth = scrollParent.offsetWidth;
+
+
+    if (isFullPage) {
+      figureWidth = scrollyWidth;
       figureHeight = viewportHeight;
-      figureWidth = figureHeight / aspectRatio;
-      scrollyWidth = figureWidth / figureWidthAsPercent;
+    } else {
+      figureWidth = scrollyWidth * figureWidthAsPercent;
+      figureHeight = figureWidth * aspectRatio;
+      if (figureHeight > viewportHeight) {
+        figureHeight = viewportHeight;
+        figureWidth = figureHeight / aspectRatio;
+        scrollyWidth = figureWidth / figureWidthAsPercent;
+      }
     }
 
 
     var figureMarginTop = (viewportHeight - figureHeight) / 2 + headerHeight;
-    console.log('viewportHeight: ' + viewportHeight + "    figureHeight: " + figureHeight);
-    var lastStepPadding = isImageRight ? (figureHeight - lastStep.select('.step-inner').node().offsetHeight) / 2 : lastStepPadding = viewportHeight / 2 + figureHeight / 2;
+    var imageWrapperHeight = isFullPage ? viewportHeight + "px" : aspectRatio * 100 + "%";
+    // var lastStepPB = isImageRight ? (figureHeight - lastStep.select('.step-inner').node().offsetHeight) / 2 : lastStepPadding = viewportHeight / 2 + figureHeight / 2;
+    var lastStepPB = lastStepPadding = viewportHeight / 2 + figureHeight / 2;
 
-    var stepMT = Math.floor(viewportHeight * 0.9);
-    step
-      .style('padding-top', stepMT / 2 + 'px')
-      .style('padding-bottom', stepMT / 2 + 'px');
-    lastStep.style('padding-bottom', lastStepPadding + 'px');
+    if (isWipe) {
+      step
+        .style('height', Math.floor(viewportHeight) * 2.5 + 'px')
+        .style('padding-top', Math.floor(viewportHeight) * 1.5 + 'px')
+        .style('padding-bottom', Math.floor(viewportHeight) * 0.5 + 'px');
+      firstStep
+        .style('height', Math.floor(viewportHeight) + 'px')
+        .style('padding-top', Math.floor(viewportHeight) * 0.5 + 'px')
+        .style('padding-bottom', Math.floor(viewportHeight) * 0.5 + 'px');
+      lastStep
+        .style('height', Math.floor(viewportHeight) * 3.5 + 'px')
+        .style('padding-bottom', Math.floor(viewportHeight) + 'px');
+    } else {
+      step
+        .style('padding-top', Math.floor(viewportHeight * 0.9) * 0.5 + 'px')
+        .style('padding-bottom', Math.floor(viewportHeight * 0.9) * 0.5 + 'px');
+      lastStep
+        .style('padding-bottom', lastStepPB + 'px');
+    }
+
     scrolly
       .style('width', scrollyWidth + 'px');
-    //captions
-    //.style('padding-top', (viewportHeight / 2) + 'px')
-    //.style('padding-bottom', viewportHeight + 'px ');
     figure
       .style('top', figureMarginTop + 'px');
+
+    
     imageWrapper
-      .style('padding-top', aspectRatio * 100 + '%');
+      .style('padding-top', imageWrapperHeight);
+
+    figure.select('.force-fill-video')
+      .style('width', Math.max(figureHeight / aspectRatio, figureWidth) + 'px');
 
     scroller.resize();
     scroller.offset(scrollyOffset);
   }
 
+
+
+
+
+
+  function handleStepProgress(response) {
+    if (isWipe) {
+
+      var dataStep = d3.select(response.element).attr('data-step');
+      maskProgress = 100 - (response.progress * 100 * 2.5);
+      console.log(response.progress);
+      figure.select('[data-overlay=\"' + dataStep + '\"]')
+        .attr('style', "-webkit-mask-image: linear-gradient(transparent " + maskProgress + "%, black " + maskProgress + "%); mask-image: linear-gradient(transparent " + maskProgress + "%, black " + maskProgress + "%)");
+    }
+  }
 
 
   // prevent jumpiness on resize
@@ -103,6 +164,7 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
 
   // reset step visibility in case of resize or reload mid-scroll
   function resetVisibility(response) {
+    if (!isWipe) {
       overlayImages.each(function() {
         var imgNum = d3.select(this).attr('data-overlay');
         if (imgNum < response.index) {
@@ -111,6 +173,7 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
           d3.select(this).classed('visible', false);
         }
       });
+    }
   }
 
   function handleStepEnter(response) {
@@ -132,13 +195,17 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
 
 
 
+
+
   handleResize();
   scroller.setup({
       step: '#' + figureId + ' #scroll-container .scroll-captions .step',
       offset: scrollyOffset,
-      debug: false
+      debug: false,
+      progress: true
     })
     .onStepEnter(handleStepEnter)
-    .onStepExit(handleStepExit);
+    .onStepExit(handleStepExit)
+    .onStepProgress(handleStepProgress);
   window.addEventListener('resize', handleResize);
 }

@@ -1,7 +1,7 @@
 @use "stickyImage";
 
 
-#scroll-container{
+#scroll-container:not(.wipe){
   .overlayimg{
     opacity: 0;
     transition: opacity 400ms;
