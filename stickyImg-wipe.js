@@ -9,8 +9,6 @@ var scrollyOffset = 0.5;
 function stickyScroll(imgWidth, imgHeight, figureId) {
 
   var prevWidth = window.innerWidth;
-  var prevHeight = window.outerHeight;
-  console.log('prev', prevWidth, prevHeight);
 
   var availableHeight = window.innerHeight - headerHeight;
   scrollyOffset = Math.floor(availableHeight / 2 + headerHeight) + 'px';
@@ -58,14 +56,9 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
 
   function checkWidth(){
     var currentWidth = window.innerWidth;
-    var currentHeight = window.outerHeight;
-    console.log('current', currentWidth, currentHeight);
 
-
-    if (currentWidth !== prevWidth || currentHeight !== prevHeight) {
+    if (currentWidth !== prevWidth) {
       prevWidth = currentWidth;
-      prevHeight = currentHeight;
-      console.log('prev', prevWidth, prevHeight);
       handleResize();
     }
   }
