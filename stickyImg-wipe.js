@@ -8,8 +8,12 @@ var scrollyOffset = 0.5;
 
 function stickyScroll(imgWidth, imgHeight, figureId) {
 
-  var viewportHeight = window.innerHeight - headerHeight;
-  scrollyOffset = Math.floor(viewportHeight / 2 + headerHeight) + 'px';
+  var prevWidth = window.innerWidth;
+  var prevHeight = window.outerHeight;
+  console.log('prev', prevWidth, prevHeight);
+
+  var availableHeight = window.innerHeight - headerHeight;
+  scrollyOffset = Math.floor(availableHeight / 2 + headerHeight) + 'px';
 
   var wrapper = d3.select('#' + figureId);
   var scrolly = wrapper.select('#scroll-container');
@@ -52,19 +56,33 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
   var scroller = scrollama();
 
 
+  function checkWidth(){
+    var currentWidth = window.innerWidth;
+    var currentHeight = window.outerHeight;
+    console.log('current', currentWidth, currentHeight);
+
+
+    if (currentWidth !== prevWidth || currentHeight !== prevHeight) {
+      prevWidth = currentWidth;
+      prevHeight = currentHeight;
+      console.log('prev', prevWidth, prevHeight);
+      handleResize();
+    }
+  }
+
   function handleResize() {
     stopTransitions();
 
     headerHeight = $(".main-header").outerHeight();
 
     var aspectRatio = imgHeight / imgWidth;
-    var viewportHeight = window.innerHeight - headerHeight;
+    var availableHeight = window.innerHeight - headerHeight;
     var scrollyWidth = scrolly.node().offsetWidth;
     var figureWidth = figure.node().offsetWidth;
     var figureHeight = figureWidth * aspectRatio;
 
     var figureWidthAsPercent = figureWidth / scrollyWidth;
-    scrollyOffset = Math.floor(viewportHeight / 2 + headerHeight) + 'px';
+    scrollyOffset = Math.floor(availableHeight / 2 + headerHeight) + 'px';
 
 
     //set values
@@ -73,39 +91,39 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
 
     if (isFullPage) {
       figureWidth = scrollyWidth;
-      figureHeight = viewportHeight;
+      figureHeight = availableHeight;
     } else {
       figureWidth = scrollyWidth * figureWidthAsPercent;
       figureHeight = figureWidth * aspectRatio;
-      if (figureHeight > viewportHeight) {
-        figureHeight = viewportHeight;
+      if (figureHeight > availableHeight) {
+        figureHeight = availableHeight;
         figureWidth = figureHeight / aspectRatio;
         scrollyWidth = figureWidth / figureWidthAsPercent;
       }
     }
 
 
-    var figureMarginTop = (viewportHeight - figureHeight) / 2 + headerHeight;
-    var imageWrapperHeight = isFullPage ? viewportHeight + "px" : aspectRatio * 100 + "%";
-    // var lastStepPB = isImageRight ? (figureHeight - lastStep.select('.step-inner').node().offsetHeight) / 2 : lastStepPadding = viewportHeight / 2 + figureHeight / 2;
-    var lastStepPB = lastStepPadding = viewportHeight / 2 + figureHeight / 2;
+    var figureMarginTop = (availableHeight - figureHeight) / 2 + headerHeight;
+    var imageWrapperHeight = isFullPage ? availableHeight + "px" : aspectRatio * 100 + "%";
+    // var lastStepPB = isImageRight ? (figureHeight - lastStep.select('.step-inner').node().offsetHeight) / 2 : lastStepPadding = availableHeight / 2 + figureHeight / 2;
+    var lastStepPB = lastStepPadding = availableHeight / 2 + figureHeight / 2;
 
     if (isWipe) {
       step
-        .style('height', Math.floor(viewportHeight) * 2.5 + 'px')
-        .style('padding-top', Math.floor(viewportHeight) * 1.5 + 'px')
-        .style('padding-bottom', Math.floor(viewportHeight) * 0.5 + 'px');
+        .style('height', Math.floor(availableHeight) * 2.5 + 'px')
+        .style('padding-top', Math.floor(availableHeight) * 1.5 + 'px')
+        .style('padding-bottom', Math.floor(availableHeight) * 0.5 + 'px');
       firstStep
-        .style('height', Math.floor(viewportHeight) + 'px')
-        .style('padding-top', Math.floor(viewportHeight) * 0.5 + 'px')
-        .style('padding-bottom', Math.floor(viewportHeight) * 0.5 + 'px');
+        .style('height', Math.floor(availableHeight) + 'px')
+        .style('padding-top', Math.floor(availableHeight) * 0.5 + 'px')
+        .style('padding-bottom', Math.floor(availableHeight) * 0.5 + 'px');
       lastStep
-        .style('height', Math.floor(viewportHeight) * 3.5 + 'px')
-        .style('padding-bottom', Math.floor(viewportHeight) + 'px');
+        .style('height', Math.floor(availableHeight) * 3.5 + 'px')
+        .style('padding-bottom', Math.floor(availableHeight) + 'px');
     } else {
       step
-        .style('padding-top', Math.floor(viewportHeight * 0.9) * 0.5 + 'px')
-        .style('padding-bottom', Math.floor(viewportHeight * 0.9) * 0.5 + 'px');
+        .style('padding-top', Math.floor(availableHeight * 0.9) * 0.5 + 'px')
+        .style('padding-bottom', Math.floor(availableHeight * 0.9) * 0.5 + 'px');
       lastStep
         .style('padding-bottom', lastStepPB + 'px');
     }
@@ -115,7 +133,11 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
     figure
       .style('top', figureMarginTop + 'px');
 
-    
+    if (isImageRight){
+      figure
+        .style('transform', 'translateX(' + (scrollyWidth - figureWidth) / -2 + 'px)');
+    }
+
     imageWrapper
       .style('padding-top', imageWrapperHeight);
 
@@ -207,5 +229,5 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
     .onStepEnter(handleStepEnter)
     .onStepExit(handleStepExit)
     .onStepProgress(handleStepProgress);
-  window.addEventListener('resize', handleResize);
+  window.addEventListener('resize', checkWidth);
 }
