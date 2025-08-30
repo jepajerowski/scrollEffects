@@ -2,17 +2,20 @@
 
 
 #scroll-container:not(.wipe){
-  .overlayimg{
+  img{
     opacity: 0;
     transition: opacity 400ms;
 
     &.visible{
       opacity: 1;
     }
+    &:first-child{
+      opacity: 1;
+    }
   }
 
   &.stop-transitions{
-    .overlayimg{
+    img{
       transition-delay: 200ms;
     }
   }

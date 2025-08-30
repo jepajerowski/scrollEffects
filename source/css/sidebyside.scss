@@ -45,5 +45,24 @@
 }
 
 
+//DEBUG
 
+/*#scroll-container figure {
+  background-color: #dd00aa44;
+}
 
+#scroll-container .scroll-captions {
+  background-color: #dd995544;
+}*/
+
+.step {
+  background-color: #44dd4433;
+}
+
+.step:before{
+  content:attr(data-step);
+  background-color: lightblue;
+  position: absolute;
+  left: 32px;
+  padding: 8px;
+}

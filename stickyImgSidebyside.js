@@ -59,7 +59,7 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
 
     var figureMarginTop = (viewportHeight - figureHeight) / 2 + headerHeight;
     console.log('viewportHeight: ' + viewportHeight + "    figureHeight: " + figureHeight);
-    var lastStepPadding = isImageRight ? (figureHeight - lastStep.select('.step-inner').node().offsetHeight) / 2 : lastStepPadding = viewportHeight / 2 + figureHeight / 2;
+    var lastStepPadding = isImageRight ? (figureHeight - lastStep.select('.step-inner').node().offsetHeight) / 2 :  viewportHeight / 2 + figureHeight / 2;
 
     var stepMT = Math.floor(viewportHeight * 0.9);
     step
