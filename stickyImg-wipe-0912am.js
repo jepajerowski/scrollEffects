@@ -12,7 +12,7 @@ if (isReduced) {
 
 
 
-function stickyScroll(figureId, imgWidth, imgHeight) {
+function stickyScroll(imgWidth, imgHeight, figureId) {
 
   var prevWidth = window.innerWidth;
 
@@ -31,15 +31,17 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
 
   //set boolean values for variations
   var isImageRight = scrolly.classed('image-right');
-  var isForceFill = scrolly.classed('force-fill');
+  var isFullPage = scrolly.classed('full-page');
   var isWipe = (scrolly.classed('wipe') && !isReduced);
+
+  console.log(isWipe);
 
   // wrap each step contents
   step.each(function() {
     thisStep = d3.select(this);
-    var stepInner = thisStep.append("div").attr("class", "step-inner");
+    var wrapper = thisStep.append("div").attr("class", "step-inner");
     thisStep.selectAll(':scope > :not(.step-inner)').each(function() {
-      stepInner.node().appendChild(this);
+      wrapper.node().appendChild(this);
     });
   });
 
@@ -50,97 +52,42 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
   });
 
 
-  // setting initial opacity & wipe placement 
+  // initial placement of wipe
   if (isWipe) {
     images.style('clip-path', updateClipPath(0));
     baseImage.style('clip-path', updateClipPath(1));
-  } else {
-    figure.selectAll('img:not(:first-child)').classed('scrolly-hidden', true);
   }
 
 
   var scroller = scrollama();
 
 
-
-
-  //throttle with additional call at end
-  function throttle(callback, delay) {
-    let waiting = false;
-    return function() {
-      if (!waiting) {
-        callback.apply(this, arguments);
-        waiting = true;
-        setTimeout(function() {
-          waiting = false;
-          callback.apply(this, arguments);
-        }, delay);
-      }
-    }
-  }
-
-
-  function debounce(callback, delay) {
-    let timer = null;
-    return function() {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(function() {
-        callback.apply(this, arguments);
-        timer = null;
-      }, delay);
-    }
-  }
-
-
-  let debouncedResize = debounce(() => {
-    setUpScroller();
-    scrolly.classed('stop-transitions',false);
-  }, 200);
-
-  let throttledReset = throttle(resetVisibility, 500);
-
-
-
-
-  // only run resize if width changes (prevent jumpiness on mobile) 
-  function handleResize() {
+  // only run reszie if width changes (prevent jumpiness on mobile) 
+  function checkWidth() {
     var currentWidth = window.innerWidth;
     if (currentWidth !== prevWidth) {
       prevWidth = currentWidth;
-
-      scrolly.classed('stop-transitions', true);
-      resizeScrolly();
-      debouncedResize();
-      // remove stop-transitions class in debouncedResize
+      handleResize();
     }
   }
 
-
-
   // prevent jumpiness on resize
+  function stopTransitions() {
+    const classes = scrolly.node().classList;
+    let timer = 0;
+    window.addEventListener('resize', function() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      } else
+        classes.add('stop-transitions');
 
-  /*
-    function stopTransitions() {
-      const classes = scrolly.node().classList;
-      let timer = 0;
-      window.addEventListener('resize', function() {
-        if (timer) {
-          clearTimeout(timer);
-          timer = null;
-        } else {
-          classes.add('stop-transitions');
-        }
-
-        timer = setTimeout(() => {
-          classes.remove('stop-transitions');
-          timer = null;
-        }, 100);
-      });
-    }*/
-  //handling a different way but keep this for now just in case
-
-
-
+      timer = setTimeout(() => {
+        classes.remove('stop-transitions');
+        timer = null;
+      }, 100);
+    });
+  }
 
 
   function updateClipPath(progress) {
@@ -151,25 +98,28 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
 
   // reset step visibility in case of resize or reload mid-scroll
   function resetVisibility(response) {
-    if (response) {
-      console.log('reset visibility', response);
+    console.log('reset visibility', response);
 
-      if (isWipe) {
-        images.filter((d, i) => i <= response.index).style('clip-path', updateClipPath(1));
-        if (response.direction === 'up') {
-          images.filter((d, i) => i = response.index + 1).style('clip-path', updateClipPath(1));
-          images.filter((d, i) => i > response.index + 1).style('clip-path', updateClipPath(0));
-        }
-      } else {
-        images.filter((d, i) => i < response.index).classed('scrolly-hidden', false);
-        images.filter((d, i) => i > response.index).classed('scrolly-hidden', true);
+
+    if (isWipe) {
+      images.filter((d, i) => i <= response.index).style('clip-path', updateClipPath(1));
+      if (response.direction === 'up') {
+        images.filter((d, i) => i = response.index + 1).style('clip-path', updateClipPath(1));
+        images.filter((d, i) => i > response.index + 1).style('clip-path', updateClipPath(0));
       }
+    } else {
+      images.filter((d, i) => i < response.index).classed('scrolly-hidden', false);
+      images.filter((d, i) => i > response.index).classed('scrolly-hidden', true);
+
     }
   }
 
-  function resizeScrolly() {
-    
-    var aspectRatio = imgHeight / imgWidth; //helper
+  function handleResize() {
+    console.log("RESIZE");
+    stopTransitions();
+
+
+    var aspectRatio = imgHeight / imgWidth;
 
     headerHeight = $(".main-header").outerHeight();
     var availableHeight = window.innerHeight - headerHeight;
@@ -181,10 +131,13 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
     var figureWidthAsPercent = figureWidth / scrollyWidth;
 
 
+
+
+
     //set new values
     scrollyWidth = scrollParentWidth;
 
-    if (isForceFill) {
+    if (isFullPage) {
       figureWidth = scrollParentWidth;
       figureHeight = availableHeight;
     } else {
@@ -199,11 +152,11 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
 
     var figureMB = (availableHeight - figureHeight) / 2;
     var figureMarginTop = figureMB + headerHeight;
-    var imageWrapperHeight = isForceFill ? availableHeight + "px" : aspectRatio * 100 + "%";
+    var imageWrapperHeight = isFullPage ? availableHeight + "px" : aspectRatio * 100 + "%";
     // var lastStepPB = isImageRight ? (figureHeight - lastStep.select('.step-inner').node().offsetHeight) / 2 : lastStepPadding = availableHeight / 2 + figureHeight / 2;
     var lastStepPB = availableHeight / 2 + figureHeight / 2;
-    scrollyOffset = isWipe ? (figureMarginTop - (figureHeight * 0.2) ) + 'px' : Math.floor(availableHeight / 2 + headerHeight) + 'px';
-
+    scrollyOffset = isWipe ? (figureMarginTop - (figureHeight * .2)) + 'px' : Math.floor(availableHeight / 2 + headerHeight) + 'px';
+    scrollyOffset = "100px"; //debugging
 
 
     if (isWipe) {
@@ -235,12 +188,15 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
     //figure.select('.force-fill-video')
     //  .style('width', Math.max(figureHeight / aspectRatio, figureWidth) + 'px');
 
+    scroller.resize();
+    scroller.offset(scrollyOffset);
   }
 
 
   function handleStepEnter(response) {
-    //console.log("ENTER", response);
-    throttledReset(response);
+    console.log("ENTER", response);
+    resetVisibility(response);
+
 
     figure.classed("translate", true);
 
@@ -250,7 +206,7 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
   }
 
   function handleStepExit(response) {
-    //console.log("EXIT", response);
+    console.log("EXIT", response);
 
     if (response.direction === 'up' && response.index == 0) {
       figure.classed('translate', false);
@@ -266,16 +222,18 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
   }
 
   function handleStepProgress(response) {
-    //console.log("PROGRESS", response);
+    console.log("PROGRESS", response.progress);
     if (isWipe) {
       images.filter((d, i) => i == response.index + 1).style('clip-path', updateClipPath(response.progress));
     }
   }
 
-  function setUpScroller() {
-    try {scroller.destroy();} catch(e) {}
 
-    scroller.setup({
+
+
+
+  handleResize();
+  scroller.setup({
       step: '#' + figureId + ' #scroll-container .scroll-captions .step',
       offset: scrollyOffset,
       debug: true,
@@ -284,28 +242,6 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
     .onStepEnter(handleStepEnter)
     .onStepExit(handleStepExit)
     .onStepProgress(handleStepProgress);
-  }
-
-
-
-  resizeScrolly();
-  setUpScroller();
-  
-  window.addEventListener('resize', handleResize);
+  window.addEventListener('resize', checkWidth);
   scrolly.classed("scrolly-loaded", true);
-}
-
-
-
-function init() {
-  // call stickyScroll for each scrolly, e.g.:
-  // stickyScroll("f1", 1600, 1065);
-}
-
-
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init);
-} else {
-  init();
 }

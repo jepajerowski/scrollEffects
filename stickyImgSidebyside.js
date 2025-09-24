@@ -114,12 +114,14 @@ function stickyScroll(imgWidth, imgHeight, figureId) {
   }
 
   function handleStepEnter(response) {
+    console.log("--ENTER--", response);
     resetVisibility(response);
     figure.select('[data-overlay=\"' + response.index + '\"]').classed('visible', true);
     figure.classed("translate", true);
   }
 
   function handleStepExit(response) {
+    console.log("--EXIT--", response);
     if (response.direction === 'up') {
       figure.select('[data-overlay=\"' + response.index + '\"]').classed('visible', false);
       if (response.index == 0) {
