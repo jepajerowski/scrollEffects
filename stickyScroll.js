@@ -3,16 +3,12 @@ var scrollyOffset = 0.5;
 
 const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-
-if (isReduced) {
-  console.log('prefers-reduced-motion');
-} else {
-  console.log('no motion preference');
+function toggleHide(element, isHidden) {
+  element.classed('scrolly-hidden', isHidden);
+  //element.attr('aria-hidden', isHidden);
 }
 
-
-
-function stickyScroll(figureId, imgWidth, imgHeight) {
+function stickyScroll(figureId, aspectRatio = null) {
 
   var prevWidth = window.innerWidth;
 
@@ -29,14 +25,31 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
   var images = figure.selectAll('img');
   var baseImage = figure.select('img:first-child');
 
+  //get image width and height if not provided
+  if (!aspectRatio) {
+    aspectRatio = baseImage.node().naturalWidth / baseImage.node().naturalHeight;
+
+    if (!aspectRatio) {
+      baseImage.node().addEventListener('load', () => {
+        aspectRatio = baseImage.node().naturalWidth / baseImage.node().naturalHeight;
+        scrolly.classed('stop-transitions', true);
+        resizeScrolly();
+        setUpScroller();
+        scrolly.classed('stop-transitions', false);
+      });
+    }
+  }
+
+
   //set boolean values for variations
   var isImageRight = scrolly.classed('image-right');
   var isForceFill = scrolly.classed('force-fill');
   var isWipe = (scrolly.classed('wipe') && !isReduced);
 
   // wrap each step contents
-  step.each(function() {
+  step.each(function(d, i) {
     thisStep = d3.select(this);
+    thisStep.attr("id", "step-" + i);
     var stepInner = thisStep.append("div").attr("class", "step-inner");
     thisStep.selectAll(':scope > :not(.step-inner)').each(function() {
       stepInner.node().appendChild(this);
@@ -44,8 +57,9 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
   });
 
   //wrap images
-  var imageWrapper = figure.append("div").attr("class", "image-wrapper");
-  images.each(function() {
+  var imageWrapper = figure.append("div").attr("class", "image-wrapper").attr("aria-live", "polite");
+  images.each(function(d, i) {
+    d3.select(this).attr("aria-describedby", "step-" + i);
     imageWrapper.node().appendChild(this);
   });
 
@@ -55,16 +69,14 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
     images.style('clip-path', updateClipPath(0));
     baseImage.style('clip-path', updateClipPath(1));
   } else {
-    figure.selectAll('img:not(:first-child)').classed('scrolly-hidden', true);
+    toggleHide(figure.selectAll('img:not(:first-child)'), true);
   }
 
 
   var scroller = scrollama();
 
 
-
-
-  //throttle with additional call at end
+  //throttle with additional call at end using arguments from last call
   function throttle(callback, delay) {
     let waiting = false;
     return function() {
@@ -94,7 +106,7 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
 
   let debouncedResize = debounce(() => {
     setUpScroller();
-    scrolly.classed('stop-transitions',false);
+    scrolly.classed('stop-transitions', false);
   }, 200);
 
   let throttledReset = throttle(resetVisibility, 500);
@@ -116,33 +128,7 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
   }
 
 
-
-  // prevent jumpiness on resize
-
-  /*
-    function stopTransitions() {
-      const classes = scrolly.node().classList;
-      let timer = 0;
-      window.addEventListener('resize', function() {
-        if (timer) {
-          clearTimeout(timer);
-          timer = null;
-        } else {
-          classes.add('stop-transitions');
-        }
-
-        timer = setTimeout(() => {
-          classes.remove('stop-transitions');
-          timer = null;
-        }, 100);
-      });
-    }*/
-  //handling a different way but keep this for now just in case
-
-
-
-
-
+  //updateClipPath(1) = fully visible, updateClipPath(0) = fully hidden
   function updateClipPath(progress) {
     var maskEdge = (1 - (progress * 2 - 1)) * 100;
     var newClipPath = "polygon(0 " + maskEdge + "%, 100% " + maskEdge + "%, 100% 100%, 0% 100%)";
@@ -161,15 +147,13 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
           images.filter((d, i) => i > response.index + 1).style('clip-path', updateClipPath(0));
         }
       } else {
-        images.filter((d, i) => i < response.index).classed('scrolly-hidden', false);
-        images.filter((d, i) => i > response.index).classed('scrolly-hidden', true);
+        toggleHide(images.filter((d, i) => i < response.index), false);
+        toggleHide(images.filter((d, i) => i > response.index && i > 0), true);
       }
     }
   }
 
   function resizeScrolly() {
-    
-    var aspectRatio = imgHeight / imgWidth; //helper
 
     headerHeight = $(".main-header").outerHeight();
     var availableHeight = window.innerHeight - headerHeight;
@@ -189,51 +173,41 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
       figureHeight = availableHeight;
     } else {
       figureWidth = scrollParentWidth * figureWidthAsPercent;
-      figureHeight = figureWidth * aspectRatio;
+      figureHeight = figureWidth / aspectRatio;
       if (figureHeight > availableHeight) {
         figureHeight = availableHeight;
-        figureWidth = figureHeight / aspectRatio;
+        figureWidth = figureHeight * aspectRatio;
         scrollyWidth = figureWidth / figureWidthAsPercent;
       }
     }
 
     var figureMB = (availableHeight - figureHeight) / 2;
     var figureMarginTop = figureMB + headerHeight;
-    var imageWrapperHeight = isForceFill ? availableHeight + "px" : aspectRatio * 100 + "%";
-    // var lastStepPB = isImageRight ? (figureHeight - lastStep.select('.step-inner').node().offsetHeight) / 2 : lastStepPadding = availableHeight / 2 + figureHeight / 2;
-    var lastStepPB = availableHeight / 2 + figureHeight / 2;
-    scrollyOffset = isWipe ? (figureMarginTop - (figureHeight * 0.2) ) + 'px' : Math.floor(availableHeight / 2 + headerHeight) + 'px';
+    var imageWrapperHeight = isForceFill ? availableHeight + "px" : 100 / aspectRatio + "%";
+    var lastStepPB = figureMarginTop + figureHeight;
+    scrollyOffset = isWipe ? (figureMarginTop - (figureHeight * 0.2)) + 'px' : Math.floor(availableHeight / 2 + headerHeight) + 'px';
 
+    var stepPadding = isWipe ? Math.max(Math.floor(figureHeight * 1.3), Math.floor(availableHeight * 0.9) * 0.5) : Math.floor(availableHeight * 0.9) * 0.5;
+    var firstStepMT = isWipe && isForceFill ? Math.floor(figureHeight * 1.3) * -0.5 : null;
+    var translateX = isImageRight ? (scrollyWidth - figureWidth) / -2 : null;
 
-
-    if (isWipe) {
-      step
-        .style('padding-top', Math.floor(figureHeight * 1.3) + 'px')
-        .style('padding-bottom', Math.floor(figureHeight * 1.3) + 'px');
-      firstStep
-        .style('margin-top', Math.floor(figureHeight * 1.3) * -0.5 + 'px');
-    } else {
-      step
-        .style('padding-top', Math.floor(availableHeight * 0.9) * 0.5 + 'px')
-        .style('padding-bottom', Math.floor(availableHeight * 0.9) * 0.5 + 'px');
-      lastStep
-        .style('padding-bottom', lastStepPB + 'px');
-    }
+    step
+      .style('padding-top', stepPadding + 'px')
+      .style('padding-bottom', stepPadding + 'px');
+    firstStep
+      .style('margin-top', firstStepMT + 'px');
+    lastStep
+      .style('padding-bottom', lastStepPB + 'px');
     scrolly
       .style('width', scrollyWidth + 'px');
     figure
-      .style('top', figureMarginTop + 'px');
-
-    if (isImageRight) {
-      figure
-        .style('transform', 'translateX(' + (scrollyWidth - figureWidth) / -2 + 'px)');
-    }
-
+      .style('top', figureMarginTop + 'px')
+      .style('transform', 'translateX(' + translateX + 'px)');
     imageWrapper
       .style('padding-top', imageWrapperHeight);
 
     //figure.select('.force-fill-video')
-    //  .style('width', Math.max(figureHeight / aspectRatio, figureWidth) + 'px');
+    //  .style('width', Math.max(figureHeight * aspectRatio, figureWidth) + 'px');
 
   }
 
@@ -245,7 +219,7 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
     figure.classed("translate", true);
 
     if (!isWipe) {
-      images.filter((d, i) => i == response.index).classed('scrolly-hidden', false);
+      toggleHide(images.filter((d, i) => i == response.index), false);
     }
   }
 
@@ -258,9 +232,9 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
 
     if (!isWipe) {
       if (response.direction === 'up') {
-        images.filter((d, i) => i == response.index).classed('scrolly-hidden', true);
+        toggleHide(images.filter((d, i) => i == response.index && i > 0), true);
       } else if (response.direction === 'down') {
-        images.filter((d, i) => i == response.index).classed('scrolly-hidden', false);
+        toggleHide(images.filter((d, i) => i == response.index), false);
       }
     }
   }
@@ -273,24 +247,24 @@ function stickyScroll(figureId, imgWidth, imgHeight) {
   }
 
   function setUpScroller() {
-    try {scroller.destroy();} catch(e) {}
+    try { scroller.destroy(); } catch (e) {}
 
     scroller.setup({
-      step: '#' + figureId + ' #scroll-container .scroll-captions .step',
-      offset: scrollyOffset,
-      debug: true,
-      progress: true
-    })
-    .onStepEnter(handleStepEnter)
-    .onStepExit(handleStepExit)
-    .onStepProgress(handleStepProgress);
+        step: '#' + figureId + ' #scroll-container .scroll-captions .step',
+        offset: scrollyOffset,
+        debug: false,
+        progress: true
+      })
+      .onStepEnter(handleStepEnter)
+      .onStepExit(handleStepExit)
+      .onStepProgress(handleStepProgress);
   }
 
 
 
   resizeScrolly();
   setUpScroller();
-  
+
   window.addEventListener('resize', handleResize);
   scrolly.classed("scrolly-loaded", true);
 }

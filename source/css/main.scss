@@ -1,11 +1,26 @@
-/*base styles for sticky image*/
-
 $sans-serif: Roboto,
 Helvetica,
 Arial,
 sans-serif;
 
+@mixin caption-left {
+  @media (min-width: 520px) {
+    margin: auto auto auto 0;
+  }
+}
 
+@mixin caption-center {
+  @media (min-width: 520px) {
+    margin: auto;
+    max-width: 40rem;
+  }
+}
+
+@mixin caption-right {
+  @media (min-width: 520px) {
+    margin: auto 0 auto auto;
+  }
+}
 
 #scroll-container {
   position: relative;
@@ -36,16 +51,18 @@ sans-serif;
     padding-left: 1rem;
     padding-right: 1rem;
 
-    @media (min-width: 520px) {
-      width: 22rem;
-    }
+
 
     .step {
-      margin: 0 auto 4px auto;
+      margin: auto auto auto 0;
       padding: 16px 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      @media (min-width: 520px) {
+        max-width: 22rem;
+      }
 
       .step-inner {
         background-color: rgba(255, 255, 255, 0.9);
@@ -77,13 +94,35 @@ sans-serif;
       }
     }
 
-    &.on-dark {
-      @extend .scroll-captions;
+    &--on-dark {
+      //@extend .scroll-captions;
 
-      .step-inner {
-        background-color: rgba(11, 11, 11, 0.9);
-        color: white;
+      .step {
+        .step-inner {
+          background-color: rgba(11, 11, 11, 0.9);
+          color: white;
+        }
       }
+    }
+
+    &--center .step {
+      @include caption-center
+    }
+
+    &--right .step {
+      @include caption-right
+    }
+
+    .step--left {
+      @include caption-left
+    }
+
+    .step--center {
+      @include caption-center
+    }
+
+    .step--right {
+      @include caption-right
     }
 
     &:last-child {
@@ -94,42 +133,55 @@ sans-serif;
 
   &.scrolly-loaded {
 
-    img,
-    .overlayimg,
-    .baseimg,
-    video {
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      object-fit: cover;
-    }
-
     figure {
       position: -webkit-sticky;
       position: sticky;
       margin: 0 auto;
       width: 100%;
       top: 0;
-    }
-  }
 
-
-
-  &.stop-transitions {
-    figure {
-      img {
-        transition-delay: 200ms;
+      img,
+      .overlayimg,
+      .baseimg,
+      video {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        object-fit: cover;
       }
     }
   }
 
 
+
+
+
   &.image-right {
 
+    figure {
+      transition: transform 800ms ease;
+
+      &.translate {
+        transform: translateX(0) !important;
+      }
+
+      @media(prefers-reduced-motion) {
+        transform: translateX(0) !important;
+        transition: none !important;
+      }
+    }
+
+    &.no-animation {
+      figure {
+        transform: translateX(0) !important;
+        transition: none !important;
+      }
+    }
+
     @media(min-width: 520px) and (max-width:767.98px) {
-      .scroll-captions {
+      .scroll-captions .step {
         width: 80%;
         margin: auto;
       }
@@ -140,33 +192,64 @@ sans-serif;
       figure {
         margin: 0 0 0 auto;
         width: 66%;
-        transition: transform 800ms ease;
-
-        @media(prefers-reduced-motion) {
-          transform: translateX(0) !important;
-          transition: none;
-        }
       }
 
-      &.no-transitions figure,
-      figure.translate {
-        transform: translateX(0) !important;
-      }
-
-      .scroll-captions {
+      .scroll-captions .step {
         width: 33.33%;
       }
     }
+  }
 
-    &.no-transitions {
+  /* force fill image-right with bg */
+  &.image-right.force-fill {
+
+    @media(min-width: 520px) and (max-width:967.98px) {
+      .scroll-captions .step {
+        width: 80%;
+        margin: auto;
+      }
+
       figure {
-        transition: none !important;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    @media (min-width: 1248px) {
+
+      figure {
+        width: 50%;
+      }
+
+      .scroll-captions {
+        width: 50%;
+
+        .step {
+          width: 100%;
+          max-width: 28rem;
+          margin: auto;
+
+          .step-inner {
+            background-color: unset;
+          }
+        }
       }
     }
   }
+
+  &.stop-transitions {
+    figure {
+      transition: none;
+    }
+
+    figure img {
+      transition-delay: 200ms;
+    }
+  }
+
 }
 
 /*debug*/
 #scroll-container .scroll-captions .step {
-  background-color: #dddd4488;
+  //background-color: #dddd4488;
 }
