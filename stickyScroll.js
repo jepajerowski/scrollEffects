@@ -4,7 +4,7 @@ var scrollyOffset = 0.5;
 const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function toggleHide(element, isHidden) {
-  element.classed('scrolly-hidden', isHidden);
+  element.toggleClass('scrolly-hidden', isHidden);
   //element.attr('aria-hidden', isHidden);
 }
 
@@ -14,62 +14,63 @@ function stickyScroll(figureId, aspectRatio = null) {
 
   var availableHeight = window.innerHeight - headerHeight;
 
-  var wrapper = d3.select('#' + figureId);
-  var scrolly = wrapper.select('#scroll-container');
-  var scrollParent = scrolly.node().parentNode;
-  var figure = scrolly.select('figure');
-  var captions = scrolly.select('.scroll-captions');
-  var step = captions.selectAll('.step');
-  var firstStep = captions.select('.step:first-child');
-  var lastStep = captions.select('.step:last-child');
-  var images = figure.selectAll('img');
-  var baseImage = figure.select('img:first-child');
+  var wrapper = $('#' + figureId);
+  var scrolly = wrapper.find('#scroll-container');
+  var scrollParent = scrolly.parent();
+  var figure = scrolly.find('figure');
+  var captions = scrolly.find('.scroll-captions');
+  var step = captions.find('.step');
+  var firstStep = captions.find('.step:first-child');
+  var lastStep = captions.find('.step:last-child');
+  var images = figure.find('img');
+  var baseImage = images.filter(':first-child');
+  var baseImageEl = baseImage.get(0);
+
 
   //get image width and height if not provided
   if (!aspectRatio) {
-    aspectRatio = baseImage.node().naturalWidth / baseImage.node().naturalHeight;
+    aspectRatio = baseImageEl.naturalWidth / baseImageEl.naturalHeight;
+    console.log("aspectRatio", aspectRatio);
 
     if (!aspectRatio) {
-      baseImage.node().addEventListener('load', () => {
-        aspectRatio = baseImage.node().naturalWidth / baseImage.node().naturalHeight;
-        scrolly.classed('stop-transitions', true);
+      baseImageEl.addEventListener('load', () => {
+        aspectRatio = baseImageEl.naturalWidth / baseImageEl.naturalHeight;
+        scrolly.toggleClass('stop-transitions', true);
         resizeScrolly();
         setUpScroller();
-        scrolly.classed('stop-transitions', false);
+        scrolly.toggleClass('stop-transitions', false);
+        console.log("aspectRatio", aspectRatio);
       });
     }
   }
 
 
   //set boolean values for variations
-  var isImageRight = scrolly.classed('image-right');
-  var isForceFill = scrolly.classed('force-fill');
-  var isWipe = (scrolly.classed('wipe') && !isReduced);
+  var isImageRight = scrolly.hasClass('image-right');
+  var isForceFill = scrolly.hasClass('force-fill');
+  var isWipe = (scrolly.hasClass('wipe') && !isReduced);
 
   // wrap each step contents
-  step.each(function(d, i) {
-    thisStep = d3.select(this);
-    thisStep.attr("id", "step-" + i);
-    var stepInner = thisStep.append("div").attr("class", "step-inner");
-    thisStep.selectAll(':scope > :not(.step-inner)').each(function() {
-      stepInner.node().appendChild(this);
-    });
+  step.each(function(i) {
+    $(this).attr("id", "step-" + i);
+    var stepInner = $("<div>").addClass("step-inner").appendTo($(this));
+    $(this).children(':not(.step-inner)').appendTo(stepInner);
   });
 
   //wrap images
-  var imageWrapper = figure.append("div").attr("class", "image-wrapper").attr("aria-live", "polite");
-  images.each(function(d, i) {
-    d3.select(this).attr("aria-describedby", "step-" + i);
-    imageWrapper.node().appendChild(this);
+  var imageWrapper = $("<div>").addClass("image-wrapper").attr("aria-live", "polite").appendTo(figure);
+  images.each(function(i) {
+    $(this).attr("aria-describedby", "step-" + i);
+    imageWrapper.append($(this));
   });
 
 
   // setting initial opacity & wipe placement 
   if (isWipe) {
-    images.style('clip-path', updateClipPath(0));
-    baseImage.style('clip-path', updateClipPath(1));
+    images.css('clip-path', updateClipPath(0));
+    baseImage.css('clip-path', updateClipPath(1));
   } else {
-    toggleHide(figure.selectAll('img:not(:first-child)'), true);
+    toggleHide(figure.find('img:not(:first-child)'), true);
   }
 
 
@@ -106,7 +107,7 @@ function stickyScroll(figureId, aspectRatio = null) {
 
   let debouncedResize = debounce(() => {
     setUpScroller();
-    scrolly.classed('stop-transitions', false);
+    scrolly.toggleClass('stop-transitions', false);
   }, 200);
 
   let throttledReset = throttle(resetVisibility, 500);
@@ -120,7 +121,7 @@ function stickyScroll(figureId, aspectRatio = null) {
     if (currentWidth !== prevWidth) {
       prevWidth = currentWidth;
 
-      scrolly.classed('stop-transitions', true);
+      scrolly.toggleClass('stop-transitions', true);
       resizeScrolly();
       debouncedResize();
       // remove stop-transitions class in debouncedResize
@@ -141,14 +142,14 @@ function stickyScroll(figureId, aspectRatio = null) {
       console.log('reset visibility', response);
 
       if (isWipe) {
-        images.filter((d, i) => i <= response.index).style('clip-path', updateClipPath(1));
+        images.filter(function(i) { return i <= response.index; }).css('clip-path', updateClipPath(1));
         if (response.direction === 'up') {
-          images.filter((d, i) => i = response.index + 1).style('clip-path', updateClipPath(1));
-          images.filter((d, i) => i > response.index + 1).style('clip-path', updateClipPath(0));
+          images.filter(function(i) { return i = response.index + 1; }).css('clip-path', updateClipPath(1));
+          images.filter(function(i) { return i > response.index + 1; }).css('clip-path', updateClipPath(0));
         }
       } else {
-        toggleHide(images.filter((d, i) => i < response.index), false);
-        toggleHide(images.filter((d, i) => i > response.index && i > 0), true);
+        toggleHide(images.filter(function(i) { return i < response.index; }), false);
+        toggleHide(images.filter(function(i) { return i > response.index && i > 0; }), true);
       }
     }
   }
@@ -158,9 +159,9 @@ function stickyScroll(figureId, aspectRatio = null) {
     headerHeight = $(".main-header").outerHeight();
     var availableHeight = window.innerHeight - headerHeight;
 
-    var scrollyWidth = scrolly.node().offsetWidth;
-    var figureWidth = figure.node().offsetWidth;
-    var scrollParentWidth = scrollParent.offsetWidth;
+    var scrollyWidth = scrolly.outerWidth();
+    var figureWidth = figure.outerWidth();
+    var scrollParentWidth = scrollParent.outerWidth();
     var figureHeight;
     var figureWidthAsPercent = figureWidth / scrollyWidth;
 
@@ -193,23 +194,20 @@ function stickyScroll(figureId, aspectRatio = null) {
     var translateX = isImageRight ? (scrollyWidth - figureWidth) / -2 : null;
 
     step
-      .style('padding-top', stepPadding + 'px')
-      .style('padding-bottom', stepPadding + 'px');
+      .css('padding-top', stepPadding + 'px')
+      .css('padding-bottom', stepPadding + 'px');
     firstStep
-      .style('margin-top', firstStepMT + 'px');
+      .css('margin-top', firstStepMT + 'px');
     lastStep
-      .style('padding-bottom', lastStepPB + 'px');
+      .css('padding-bottom', lastStepPB + 'px');
     scrolly
-      .style('width', scrollyWidth + 'px');
+      .css('width', scrollyWidth + 'px');
     figure
      // .style('top', figureMarginTop + 'px')
       .style('top', figureMT_css)
       .style('transform', 'translateX(' + translateX + 'px)');
     imageWrapper
-      .style('padding-top', imageWrapperHeight);
-
-    //figure.select('.force-fill-video')
-    //  .style('width', Math.max(figureHeight * aspectRatio, figureWidth) + 'px');
+      .css('padding-top', imageWrapperHeight);
 
   }
 
@@ -218,10 +216,10 @@ function stickyScroll(figureId, aspectRatio = null) {
     //console.log("ENTER", response);
     throttledReset(response);
 
-    figure.classed("translate", true);
+    figure.toggleClass("translate", true);
 
     if (!isWipe) {
-      toggleHide(images.filter((d, i) => i == response.index), false);
+      toggleHide(images.filter(function(i) { return i == response.index; }), false);
     }
   }
 
@@ -229,14 +227,14 @@ function stickyScroll(figureId, aspectRatio = null) {
     //console.log("EXIT", response);
 
     if (response.direction === 'up' && response.index == 0) {
-      figure.classed('translate', false);
+      figure.toggleClass('translate', false);
     }
 
     if (!isWipe) {
       if (response.direction === 'up') {
-        toggleHide(images.filter((d, i) => i == response.index && i > 0), true);
+        toggleHide(images.filter(function(i) { return i == response.index && i > 0; }), true);
       } else if (response.direction === 'down') {
-        toggleHide(images.filter((d, i) => i == response.index), false);
+        toggleHide(images.filter(function(i) { return i == response.index; }), false);
       }
     }
   }
@@ -244,7 +242,7 @@ function stickyScroll(figureId, aspectRatio = null) {
   function handleStepProgress(response) {
     //console.log("PROGRESS", response);
     if (isWipe) {
-      images.filter((d, i) => i == response.index + 1).style('clip-path', updateClipPath(response.progress));
+      images.filter(function(i) { return i == response.index + 1; }).css('clip-path', updateClipPath(response.progress));
     }
   }
 
@@ -268,7 +266,7 @@ function stickyScroll(figureId, aspectRatio = null) {
   setUpScroller();
 
   window.addEventListener('resize', handleResize);
-  scrolly.classed("scrolly-loaded", true);
+  scrolly.toggleClass("scrolly-loaded", true);
 }
 
 
