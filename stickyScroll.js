@@ -182,9 +182,10 @@ function stickyScroll(figureId, aspectRatio = null) {
       }
     }
 
-    var figureMB = (availableHeight - figureHeight) / 2;
-    var figureMarginTop = figureMB + headerHeight;
-    var imageWrapperHeight = isForceFill ? availableHeight + "px" : 100 / aspectRatio + "%";
+    var figureMarginTop = isForceFill ? headerHeight : (availableHeight - figureHeight) / 2 + headerHeight;
+    var figureMT_css = isForceFill ? headerHeight + "px" : "calc(50lvh - " + figureHeight + "px / 2 + " + headerHeight + "px / 2)";
+
+    var imageWrapperHeight = isForceFill ? "calc(100vh - " + headerHeight + "px)" : 100 / aspectRatio + "%";
     var lastStepPB = figureMarginTop + figureHeight;
     scrollyOffset = isWipe ? (figureMarginTop - (figureHeight * 0.2)) + 'px' : Math.floor(availableHeight / 2 + headerHeight) + 'px';
 
@@ -202,8 +203,9 @@ function stickyScroll(figureId, aspectRatio = null) {
     scrolly
       .css('width', scrollyWidth + 'px');
     figure
-      .css('top', figureMarginTop + 'px')
-      .css('transform', 'translateX(' + translateX + 'px)');
+     // .style('top', figureMarginTop + 'px')
+      .style('top', figureMT_css)
+      .style('transform', 'translateX(' + translateX + 'px)');
     imageWrapper
       .css('padding-top', imageWrapperHeight);
 
