@@ -1,5 +1,5 @@
 var headerHeight = 56;
-var scrollyOffset = 0.5;
+var scrollOffset = 0.5;
 
 const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -8,15 +8,14 @@ function toggleHide(element, isHidden) {
   //element.attr('aria-hidden', isHidden);
 }
 
-function stickyScroll(figureId, aspectRatio = null) {
+function stickyScroll(wrapperId, aspectRatio = null) {
 
-  var prevWidth = window.innerWidth;
+  var prevWidth = $(window).width();
 
   var availableHeight = window.innerHeight - headerHeight;
 
-  var wrapper = $('#' + figureId);
-  var scrolly = wrapper.find('#scroll-container');
-  var scrollParent = scrolly.parent();
+  var wrapper = $('#' + wrapperId);
+  var scrolly = wrapper.find('.sticky-scroll').first();
   var figure = scrolly.find('figure');
   var captions = scrolly.find('.scroll-captions');
   var step = captions.find('.step');
@@ -26,11 +25,9 @@ function stickyScroll(figureId, aspectRatio = null) {
   var baseImage = images.filter(':first-child');
   var baseImageEl = baseImage.get(0);
 
-
   //get image width and height if not provided
   if (!aspectRatio) {
     aspectRatio = baseImageEl.naturalWidth / baseImageEl.naturalHeight;
-    console.log("aspectRatio", aspectRatio);
 
     if (!aspectRatio) {
       baseImageEl.addEventListener('load', () => {
@@ -39,7 +36,6 @@ function stickyScroll(figureId, aspectRatio = null) {
         resizeScrolly();
         setUpScroller();
         scrolly.toggleClass('stop-transitions', false);
-        console.log("aspectRatio", aspectRatio);
       });
     }
   }
@@ -49,10 +45,13 @@ function stickyScroll(figureId, aspectRatio = null) {
   var isImageRight = scrolly.hasClass('image-right');
   var isForceFill = scrolly.hasClass('force-fill');
   var isWipe = (scrolly.hasClass('wipe') && !isReduced);
+  var isContainerWidth = scrolly.hasClass('container-width');
 
+
+  var stepPrefix = wrapperId + "-step-";
   // wrap each step contents
   step.each(function(i) {
-    $(this).attr("id", "step-" + i);
+    $(this).attr("id", stepPrefix + i);
     var stepInner = $("<div>").addClass("step-inner").appendTo($(this));
     $(this).children(':not(.step-inner)').appendTo(stepInner);
   });
@@ -60,8 +59,11 @@ function stickyScroll(figureId, aspectRatio = null) {
   //wrap images
   var imageWrapper = $("<div>").addClass("image-wrapper").attr("aria-live", "polite").appendTo(figure);
   images.each(function(i) {
-    $(this).attr("aria-describedby", "step-" + i);
+    //$(this).attr("aria-describedby", stepPrefix + i);
+    $(this).attr("aria-hidden", true);
     imageWrapper.append($(this));
+
+    $(this).clone().attr("aria-hidden", null).addClass("sr-only").appendTo($("#" + stepPrefix + i));
   });
 
 
@@ -117,7 +119,7 @@ function stickyScroll(figureId, aspectRatio = null) {
 
   // only run resize if width changes (prevent jumpiness on mobile) 
   function handleResize() {
-    var currentWidth = window.innerWidth;
+    var currentWidth = $(window).width();
     if (currentWidth !== prevWidth) {
       prevWidth = currentWidth;
 
@@ -139,7 +141,7 @@ function stickyScroll(figureId, aspectRatio = null) {
   // reset step visibility in case of resize or reload mid-scroll
   function resetVisibility(response) {
     if (response) {
-      console.log('reset visibility', response);
+      //console.log('reset visibility', response);
 
       if (isWipe) {
         images.filter(function(i) { return i <= response.index; }).css('clip-path', updateClipPath(1));
@@ -159,21 +161,19 @@ function stickyScroll(figureId, aspectRatio = null) {
     headerHeight = $(".main-header").outerHeight();
     var availableHeight = window.innerHeight - headerHeight;
 
-    var scrollyWidth = scrolly.outerWidth();
-    var figureWidth = figure.outerWidth();
-    var scrollParentWidth = scrollParent.outerWidth();
+    var scrollyWidth = scrolly.outerWidth(); //359
+    var figureWidth = figure.outerWidth(); //359
+    var maxWidth = isContainerWidth && !isForceFill ? 1110 : $(window).width(); // forceFill overrides containerWidth //1110
     var figureHeight;
-    var figureWidthAsPercent = figureWidth / scrollyWidth;
-
+    var figureWidthAsPercent = figureWidth / scrollyWidth; //1
 
     //set new values
-    scrollyWidth = scrollParentWidth;
+    scrollyWidth = Math.min(maxWidth, $(window).width()); 
+    figureWidth = scrollyWidth * figureWidthAsPercent;
 
     if (isForceFill) {
-      figureWidth = scrollParentWidth;
       figureHeight = availableHeight;
     } else {
-      figureWidth = scrollParentWidth * figureWidthAsPercent;
       figureHeight = figureWidth / aspectRatio;
       if (figureHeight > availableHeight) {
         figureHeight = availableHeight;
@@ -185,9 +185,9 @@ function stickyScroll(figureId, aspectRatio = null) {
     var figureMarginTop = isForceFill ? headerHeight : (availableHeight - figureHeight) / 2 + headerHeight;
     var figureMT_css = isForceFill ? headerHeight + "px" : "calc(50lvh - " + figureHeight + "px / 2 + " + headerHeight + "px / 2)";
 
-    var imageWrapperHeight = isForceFill ? "calc(100vh - " + headerHeight + "px)" : 100 / aspectRatio + "%";
+    var imageWrapperHeight = isForceFill ? "calc(100lvh - " + headerHeight + "px)" : 100 / aspectRatio + "%";
     var lastStepPB = figureMarginTop + figureHeight;
-    scrollyOffset = isWipe ? (figureMarginTop - (figureHeight * 0.2)) + 'px' : Math.floor(availableHeight / 2 + headerHeight) + 'px';
+    scrollOffset = isWipe ? (figureMarginTop - (figureHeight * 0.2)) + 'px' : Math.floor(availableHeight / 2 + headerHeight) + 'px';
 
     var stepPadding = isWipe ? Math.max(Math.floor(figureHeight * 1.3), Math.floor(availableHeight * 0.9) * 0.5) : Math.floor(availableHeight * 0.9) * 0.5;
     var firstStepMT = isWipe && isForceFill ? Math.floor(figureHeight * 1.3) * -0.5 : null;
@@ -203,14 +203,12 @@ function stickyScroll(figureId, aspectRatio = null) {
     scrolly
       .css('width', scrollyWidth + 'px');
     figure
-     // .style('top', figureMarginTop + 'px')
-      .style('top', figureMT_css)
-      .style('transform', 'translateX(' + translateX + 'px)');
+      .css('top', figureMT_css)
+      .css('transform', 'translateX(' + translateX + 'px)');
     imageWrapper
       .css('padding-top', imageWrapperHeight);
 
   }
-
 
   function handleStepEnter(response) {
     //console.log("ENTER", response);
@@ -250,8 +248,8 @@ function stickyScroll(figureId, aspectRatio = null) {
     try { scroller.destroy(); } catch (e) {}
 
     scroller.setup({
-        step: '#' + figureId + ' #scroll-container .scroll-captions .step',
-        offset: scrollyOffset,
+        step: '#' + wrapperId + ' .sticky-scroll .scroll-captions .step',
+        offset: scrollOffset,
         debug: false,
         progress: true
       })

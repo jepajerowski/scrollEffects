@@ -62,7 +62,6 @@
                   
 
 <!-- Demo External JS -->
-<script src='https://unpkg.com/d3@5.9.1/dist/d3.min.js'></script>
 <script src="https://unpkg.com/scrollama"></script>
 <!--end demo-->
 
@@ -74,34 +73,30 @@
 <p>Donec fringilla feugiat leo in suscipit. Integer sodales nisi mi, vel commodo libero placerat dapibus. Sed egestas rhoncus metus eu vehicula. Cras porttitor ultricies erat at rutrum. Maecenas dapibus ultricies porta. Nulla lorem neque, consectetur eget arcu at, dapibus tristique nulla. Nam sagittis nibh lorem, ut fermentum metus euismod eget. Nunc vehicula fermentum nunc in volutpat. Maecenas et viverra sem. Pellentesque a iaculis sapien. Morbi in arcu rhoncus, egestas urna vitae, tempor dui. Nullam tincidunt venenatis nibh, a iaculis arcu porttitor in. Sed tincidunt tincidunt maximus. Etiam porta tortor hendrerit semper vehicula. Vivamus ultricies malesuada leo eget tincidunt.</p>
 <div id="f1" class="news-article__figure--container-width">
   <figure class="news-article__figure border-light-gray plain border-bottom pb-3">
-    <div class="news-article__figure__image__wrapper">
-      <div class="news-article__figure__image mb-2">
-        <section id="scroll-container" class="wipe">
-          <figure>
-              <img src="https://placehold.co/1600x1065/cc6666/lightgray?text=Base+image" alt="" />
-              <img src="https://placehold.co/1600x1065/darkseagreen/lightgray?text=Overlay+1" alt="" />
-              <img src="https://placehold.co/1600x1065/slategray/lightgray?text=Overlay+2" alt="" />
-              <img src="https://placehold.co/1600x1065/burlywood/lightgray?text=Overlay+3" alt="" />
-          </figure>
-          <div class="scroll-captions scroll-captions--on-dark">
-            <div class="step">
-              <h2>Step 0</h2>
-              <p>Day laborers sort red chilies that have been dried in the scorching sunshine of India’s Andhra Pradesh state. The spicy red peppers are native to South America but were brought to India by Portuguese traders in the early 1500s. Today, the country produces more than 40% of the world’s dried red chili, nearly all grown by smallholder farmers.</p>
-            </div>
-            <div class="step">
-              <h2>Step 1</h2>
-              <p>With their annual income at their fingertips, a family of saffron farmers pluck delicate crimson stigmas from crocus flowers grown high in India’s Kashmir Valley. Hand-harvested, with a prized flavor profile, Kashmiri saffron brings top dollar worldwide. After carefully drying the fragile threads in the shade, farmers sell them for $3 a gram—one-tenth of the U.S. retail price.</p>
-            </div>
-            <div class="step">
-              <h2>Step 2</h2>
-              <p>After a series of volcanic eruptions in the 1700s covered their wheat fields with a thick layer of ash, farmers on Lanzarote in the Canary Islands discovered that the ash kept the soil at the perfect temperature for grapevines, once they dug down a bit. One variety grown here, the endemic Malvasía Volcánica grape, produces small batch wines that are celebrated throughout Europe.</p>
-            </div>
-            <div class="step">
-              <h2>Step 3</h2>
-              <p>The largest sheep sale in the world takes place every Thursday (save holidays) at the Wagga Wagga Livestock Marketing Centre in New South Wales in Australia, where nearly 2 million sheep are bought and sold each year. Australia’s lamb exports have surged as global demand for meat continues to rise, with China a major market.</p>
-            </div>
-          </div>
-        </section>
+    <div class="sticky-scroll wipe container-width">
+      <figure>
+        <img src="https://placehold.co/1600x1065/cc6666/lightgray?text=Base+image" alt="Base image" />
+        <img src="https://placehold.co/1600x1065/darkseagreen/lightgray?text=Overlay+1" alt="Overlay 1" />
+        <img src="https://placehold.co/1600x1065/slategray/lightgray?text=Overlay+2" alt="Overlay 2" />
+        <img src="https://placehold.co/1600x1065/burlywood/lightgray?text=Overlay+3" alt="Overlay 3" />
+      </figure>
+      <div class="scroll-captions scroll-captions--on-dark">
+        <div class="step">
+          <h2>Step 0</h2>
+          <p>Day laborers sort red chilies that have been dried in the scorching sunshine of India’s Andhra Pradesh state. The spicy red peppers are native to South America but were brought to India by Portuguese traders in the early 1500s. Today, the country produces more than 40% of the world’s dried red chili, nearly all grown by smallholder farmers.</p>
+        </div>
+        <div class="step">
+          <h2>Step 1</h2>
+          <p>With their annual income at their fingertips, a family of saffron farmers pluck delicate crimson stigmas from crocus flowers grown high in India’s Kashmir Valley. Hand-harvested, with a prized flavor profile, Kashmiri saffron brings top dollar worldwide. After carefully drying the fragile threads in the shade, farmers sell them for $3 a gram—one-tenth of the U.S. retail price.</p>
+        </div>
+        <div class="step">
+          <h2>Step 2</h2>
+          <p>After a series of volcanic eruptions in the 1700s covered their wheat fields with a thick layer of ash, farmers on Lanzarote in the Canary Islands discovered that the ash kept the soil at the perfect temperature for grapevines, once they dug down a bit. One variety grown here, the endemic Malvasía Volcánica grape, produces small batch wines that are celebrated throughout Europe.</p>
+        </div>
+        <div class="step">
+          <h2>Step 3</h2>
+          <p>The largest sheep sale in the world takes place every Thursday (save holidays) at the Wagga Wagga Livestock Marketing Centre in New South Wales in Australia, where nearly 2 million sheep are bought and sold each year. Australia’s lamb exports have surged as global demand for meat continues to rise, with China a major market.</p>
+        </div>
       </div>
     </div>
     <figcaption class="news-article__figure__caption"><span class="text-sm text-gray letter-spacing-default"><span class="text-xxs text-uppercase">C. BICKEL/<i>Science</i></span></span></figcaption>
@@ -111,30 +106,27 @@
 <p>Pellentesque velit orci, cursus vel consectetur ut, scelerisque dictum ex. Nulla id tortor nec nibh molestie molestie. In ut elementum orci. Morbi vitae diam eros. Donec facilisis egestas faucibus. Pellentesque gravida lectus ligula, eget dignissim justo vehicula tristique. Mauris elementum tempus diam eu pharetra. Morbi ex lectus, elementum quis risus at, consequat tincidunt nunc. Suspendisse volutpat, dolor sit amet faucibus congue, risus ligula vestibulum dolor, posuere commodo ipsum quam viverra nisi. Donec nisl dui, imperdiet sed gravida eget, molestie at mauris.</p>
 <div id="f2" class="news-article__figure--page-width">
   <figure class="news-article__figure border-light-gray plain border-bottom pb-3">
-    <div class="news-article__figure__image__wrapper">
-      <div class="news-article__figure__image mb-2">
-        <section id="scroll-container" class="wipe force-fill">
-          <figure>
-              <img style="object-position: 45% 40%" src="demo-images/food-1.jpg" alt="" />
-              <img style="object-position: 60% 50%" src="demo-images/food-2.jpg" alt="" />
-              <img style="object-position: 90% 90%" src="demo-images/food-3.jpg" alt="" />
-              <img style="object-position: 50% 100%" src="demo-images/food-4.jpg" alt="" />
-          </figure>
-          <div class="scroll-captions scroll-captions--on-dark">
-            <div class="step step--right">
-              <p>Day laborers sort red chilies that have been dried in the scorching sunshine of India’s Andhra Pradesh state. The spicy red peppers are native to South America but were brought to India by Portuguese traders in the early 1500s. Today, the country produces more than 40% of the world’s dried red chili, nearly all grown by smallholder farmers.</p>
-            </div>
-            <div class="step">
-              <p>With their annual income at their fingertips, a family of saffron farmers pluck delicate crimson stigmas from crocus flowers grown high in India’s Kashmir Valley. Hand-harvested, with a prized flavor profile, Kashmiri saffron brings top dollar worldwide. After carefully drying the fragile threads in the shade, farmers sell them for $3 a gram—one-tenth of the U.S. retail price.</p>
-            </div>
-            <div class="step">
-              <p>After a series of volcanic eruptions in the 1700s covered their wheat fields with a thick layer of ash, farmers on Lanzarote in the Canary Islands discovered that the ash kept the soil at the perfect temperature for grapevines, once they dug down a bit. One variety grown here, the endemic Malvasía Volcánica grape, produces small batch wines that are celebrated throughout Europe.</p>
-            </div>
-            <div class="step step--right">
-              <p>The largest sheep sale in the world takes place every Thursday (save holidays) at the Wagga Wagga Livestock Marketing Centre in New South Wales in Australia, where nearly 2 million sheep are bought and sold each year. Australia’s lamb exports have surged as global demand for meat continues to rise, with China a major market.</p>
-            </div>
-          </div>
-        </section>
+    <div class="sticky-scroll wipe force-fill">
+      <figure>
+        <img style="object-position: 45% 40%" src="demo-images/food-1.jpg" alt="Aerial view of a field of chilies." />
+        <img style="object-position: 60% 50%" src="demo-images/food-2.jpg" alt="A group of people around a table with piles of saffron flowers and stigmas." />
+        <img style="object-position: 90% 90%" src="demo-images/food-3.jpg" alt="Rolling hills of volcanic ash, with crater-like depressions, each with grapevines growing in the bottom." />
+        <img style="object-position: 50% 100%" src="demo-images/food-4.jpg" alt="A giant grid of sheep pens photographed from above." />
+      </figure>
+      <div class="scroll-captions scroll-captions--on-dark">
+        <div class="step step--right">
+          <p>Day laborers sort red chilies that have been dried in the scorching sunshine of India’s Andhra Pradesh state. The spicy red peppers are native to South America but were brought to India by Portuguese traders in the early 1500s. Today, the country produces more than 40% of the world’s dried red chili, nearly all grown by smallholder farmers.</p>
+          <div class="credit">Credit TK</div>
+        </div>
+        <div class="step">
+          <p>With their annual income at their fingertips, a family of saffron farmers pluck delicate crimson stigmas from crocus flowers grown high in India’s Kashmir Valley. Hand-harvested, with a prized flavor profile, Kashmiri saffron brings top dollar worldwide. After carefully drying the fragile threads in the shade, farmers sell them for $3 a gram—one-tenth of the U.S. retail price.</p>
+        </div>
+        <div class="step">
+          <p>After a series of volcanic eruptions in the 1700s covered their wheat fields with a thick layer of ash, farmers on Lanzarote in the Canary Islands discovered that the ash kept the soil at the perfect temperature for grapevines, once they dug down a bit. One variety grown here, the endemic Malvasía Volcánica grape, produces small batch wines that are celebrated throughout Europe.</p>
+        </div>
+        <div class="step step--right">
+          <p>The largest sheep sale in the world takes place every Thursday (save holidays) at the Wagga Wagga Livestock Marketing Centre in New South Wales in Australia, where nearly 2 million sheep are bought and sold each year. Australia’s lamb exports have surged as global demand for meat continues to rise, with China a major market.</p>
+        </div>
       </div>
     </div>
     <figcaption class="news-article__figure__caption"><span class="text-sm text-gray letter-spacing-default"><span class="text-xxs text-uppercase">C. BICKEL/<i>Science</i></span></span></figcaption>

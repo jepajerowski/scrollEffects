@@ -3,37 +3,123 @@ Helvetica,
 Arial,
 sans-serif;
 
+$serif: "PT Serif",
+serif;
+
+$sm: 520px;
+$md: 768px;
+$lg: 968px;
+$xl: 1248px;
+$xxl: 2048px;
+
 @mixin caption-left {
-  @media (min-width: 520px) {
+  @media (min-width: $md) {
     margin: auto auto auto 0;
+
+    .news-article__stat {
+      text-align: left;
+
+      &+.news-article__stat:before {
+        right: unset;
+        transform: translateX(0);
+      }
+    }
   }
+
 }
 
 @mixin caption-center {
-  @media (min-width: 520px) {
+  @media (min-width: $md) {
     margin: auto;
     max-width: 40rem;
   }
 }
 
 @mixin caption-right {
-  @media (min-width: 520px) {
+  @media (min-width: $md) {
     margin: auto 0 auto auto;
+
+    .news-article__stat {
+      text-align: left;
+
+      &+.news-article__stat:before {
+        right: unset;
+        transform: translateX(0);
+      }
+    }
   }
 }
 
-#scroll-container {
+.scroll-wrapper {
+  margin: 1.5rem 0;
+
+  @media (min-width: $md) {
+    margin: 2rem 0;
+  }
+
+}
+
+.scroll-wrapper .credit,
+.sticky-scroll .credit {
+  font-size: .625rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #757575;
+  margin-top: .75rem;
+  position: relative;
+}
+
+
+
+.sticky-scroll {
   position: relative;
   display: block;
   margin: auto;
 
+  width: calc(100vw - 1rem);
+  transform: translateX(-50%);
+  margin-left: 50%;
+
+
+
+  &:before {
+    background: linear-gradient(0deg, #fff 0, #fff 35%, #fff);
+    background: linear-gradient(0deg, #fff 0, #fff 35%, hsla(0, 0%, 100%, 0));
+    top: -24px;
+    top: -1.5rem;
+  }
+
+  &:after {
+    background: linear-gradient(180deg, #fff, #fff 35%, #fff);
+    background: linear-gradient(180deg, #fff, #fff 35%, hsla(0, 0%, 100%, 0));
+    bottom: -24px;
+    bottom: -1.5rem;
+  }
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 24px;
+    height: 1.5rem;
+  }
+
+  &.container-width:not(.force-fill) {
+    max-width: 69.375rem;
+  }
+
   figure {
+    z-index: 0;
 
     img {
       opacity: 1;
       transition:
         opacity 400ms,
         clip-path 0ms;
+      display: block;
+      margin: auto;
 
       &.scrolly-hidden {
         opacity: 0;
@@ -45,62 +131,245 @@ sans-serif;
     }
   }
 
+
+
   .scroll-captions {
     position: relative;
     width: 100%;
     padding-left: 1rem;
     padding-right: 1rem;
+    z-index: 1;
+    -webkit-transform: translate3d(0, 0, 0);
 
+    @media (min-width: 520px) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
 
+    h2,
+    .h2 {
+      font-family: $sans-serif;
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-bottom: .5rem;
+    }
+
+    h3,
+    .h3 {
+      font-family: $sans-serif;
+      font-weight: bold;
+      font-size: 1.25rem;
+      margin-bottom: .5rem;
+    }
+
+    h4,
+    .h4 {
+      font-family: $sans-serif;
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: .25rem;
+    }
+
+    p {
+      font-family: $sans-serif;
+      font-size: 1rem;
+      line-height: 1.375rem;
+
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
 
     .step {
       margin: auto auto auto 0;
       padding: 16px 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
 
-      @media (min-width: 520px) {
+      @media (min-width: 768px) {
         max-width: 22rem;
       }
 
       .step-inner {
-        background-color: rgba(255, 255, 255, 0.9);
+        background-color: rgba(255, 255, 255, 0.92);
         color: #262626;
         padding: 1rem;
+
       }
 
-      h3 {
-        font-family: $sans-serif;
-        font-weight: bold;
-        text-align: left;
-        font-size: 1.25rem;
-        margin-bottom: .5rem;
+
+
+
+      &--quote {
+
+        /*@media (min-width: 520px) {
+          max-width: unset;
+        }*/
+
+        @media (min-width: $md) {
+          max-width: 28rem;
+        }
+
+        .step-inner {
+          text-align: center;
+          padding: 32px 24px;
+        }
+
+        .quotation__img {
+          display: block;
+          width: 63px;
+          width: 3.9375rem;
+          height: 53px;
+          height: 3.3125rem;
+          margin: auto;
+        }
+
+        .quotation__text {
+          font-size: 18px;
+          font-size: 1.125rem;
+          font-weight: 700;
+          line-height: 1.25em;
+          letter-spacing: .02em;
+          margin-top: 16px;
+          margin-bottom: 16px;
+
+          @media (min-width: $md) {
+            font-size: 1.5rem;
+            line-height: 1.5em;
+          }
+
+          @media (min-width: $xl) {
+            margin-top: 24px;
+            margin-bottom: 24px;
+          }
+        }
+
+        .quotation__source {
+          font-size: 12px;
+          font-size: .75rem;
+          text-transform: uppercase;
+          color: #595959;
+          letter-spacing: .02em;
+          line-height: 16px;
+          line-height: 1rem;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+
+          li {
+            font-size: inherit;
+            font-family: inherit;
+            line-height: inherit;
+            display: inline-block;
+
+            &:not(:last-child) {
+              padding-right: .5rem;
+              margin-right: .5rem;
+              border-right: .0625rem solid #595959;
+              margin-bottom: .25rem;
+            }
+          }
+        }
+
+        /*&.overlay {
+
+          @media (min-width: $md) {
+            max-width: 32rem;
+          }
+
+
+          .step-inner {
+            //padding: 1rem;
+            background-color: rgba(11, 11, 11, 0.5);
+            // box-shadow: 0 0 8px 8px rgba(11, 11, 11, 0.4);
+            //filter: drop-shadow(0 0 16px rgba(11, 11, 11, 0.4));
+            color: white;
+          }
+
+          .quotation__text {
+            font-size: 1.5rem;
+            letter-spacing: .02em;
+
+
+            @media (min-width: $md) {
+              font-size: 1.75rem;
+              line-height: 1.25em;
+            }
+          }
+
+          .quotation__source {
+            color: white;
+            font-size: 1rem;
+          }
+        }*/
       }
 
-      h4 {
-        font-family: $sans-serif;
-        font-weight: bold;
-        text-align: left;
-        font-size: 1rem;
-        margin-bottom: .25rem;
+
+
+
+
+      .news-article__stat {
+
+        margin-left: 2rem;
+        margin-right: 2rem;
+
+        h3,
+        .h3 {
+          font-size: 64px;
+          font-size: 4rem;
+          line-height: 76px;
+          line-height: 4.75rem;
+        }
+
+        &+.news-article__stat:before {}
+
+
+
       }
 
-      p {
-        font-family: $sans-serif;
-        text-align: left;
-        font-size: 1rem;
-        line-height: 1.375rem;
-      }
     }
+
+
 
     &--on-dark {
       //@extend .scroll-captions;
 
+      .credit {
+        color: #dbdbdb;
+      }
+
       .step {
         .step-inner {
-          background-color: rgba(11, 11, 11, 0.9);
+          background-color: rgba(11, 11, 11, 0.92);
           color: white;
+        }
+
+        &--quote {
+          .quotation__source {
+            color: #dbdbdb;
+          }
+        }
+
+        .news-article__stat {
+          &+.news-article__stat:before {
+            background-color: #595959;
+          }
+        }
+      }
+    }
+
+    &--body {
+      p {
+        font-family: $serif;
+        font-size: 1.125rem;
+        line-height: 1.688rem;
+
+        &:not(:last-child) {
+          margin-bottom: 1.75rem;
+        }
+      }
+
+      .step {
+        .step-inner {
+          padding: 1.5rem;
         }
       }
     }
@@ -125,9 +394,9 @@ sans-serif;
       @include caption-right
     }
 
-    &:last-child {
+    /*&:last-child {
       margin-bottom: 0;
-    }
+    }*/
 
   }
 
@@ -140,16 +409,19 @@ sans-serif;
       width: 100%;
       top: 0;
 
-      img,
-      .overlayimg,
-      .baseimg,
-      video {
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        object-fit: cover;
+      .image-wrapper {
+        padding-top: 100vh;
+        padding-top: 100lvh;
+
+        img,
+        video {
+          width: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
   }
@@ -180,21 +452,21 @@ sans-serif;
       }
     }
 
-    @media(min-width: 520px) and (max-width:767.98px) {
-      .scroll-captions .step {
-        width: 80%;
-        margin: auto;
+    @media (min-width: $md) and (max-width: $xl - .02) {
+      .scroll-captions {
+        padding-left: 16px;
+        padding-right: 16px;
       }
     }
 
-    @media (min-width:768px) {
+    @media (min-width:$md) {
 
       figure {
         margin: 0 0 0 auto;
         width: 66%;
       }
 
-      .scroll-captions .step {
+      .scroll-captions {
         width: 33.33%;
       }
     }
@@ -203,9 +475,13 @@ sans-serif;
   /* force fill image-right with bg */
   &.image-right.force-fill {
 
-    @media(min-width: 520px) and (max-width:967.98px) {
+    @media(min-width: $md) and (max-width: $xl - .02) {
+      .scroll-captions {
+        width: 100%;
+      }
+
       .scroll-captions .step {
-        width: 80%;
+        max-width: 40rem;
         margin: auto;
       }
 
@@ -215,7 +491,7 @@ sans-serif;
       }
     }
 
-    @media (min-width: 1248px) {
+    @media (min-width: $xl) {
 
       figure {
         width: 50%;
@@ -231,6 +507,7 @@ sans-serif;
 
           .step-inner {
             background-color: unset;
+            //just for orchids feature
           }
         }
       }
@@ -247,9 +524,57 @@ sans-serif;
     }
   }
 
+  @media print {
+    max-width: 100%;
+
+    figure {
+      position: relative !important;
+      top: 0 !important;
+
+      .image-wrapper {
+        padding-top: 0 !important;
+
+        img,
+        video {
+          position: relative !important;
+          height: auto;
+          opacity: 1 !important;
+        }
+      }
+    }
+
+    .step {
+      padding-top: 1rem !important;
+      padding-bottom: 1rem !important;
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    &img{
+      width: 1px;
+    }
+  }
+
 }
 
+.news-article__figure .sticky-scroll {
+  margin-bottom: .5rem;
+}
+
+
+
+
+
 /*debug*/
-#scroll-container .scroll-captions .step {
+.sticky-scroll .scroll-captions .step {
   //background-color: #dddd4488;
 }
