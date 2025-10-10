@@ -57,7 +57,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   });
 
   //wrap images
-  var imageWrapper = $("<div>").addClass("image-wrapper").attr("aria-live", "polite").appendTo(figure);
+  var imageWrapper = $("<div>").addClass("image-wrapper").appendTo(figure);
   images.each(function(i) {
     //$(this).attr("aria-describedby", stepPrefix + i);
     $(this).attr("aria-hidden", true);
