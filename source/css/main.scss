@@ -120,6 +120,7 @@ $xxl: 2048px;
         clip-path 0ms;
       display: block;
       margin: auto;
+      width: 100%;
 
       &.scrolly-hidden {
         opacity: 0;
@@ -415,7 +416,6 @@ $xxl: 2048px;
 
         img,
         video {
-          width: 100%;
           position: absolute;
           top: 0;
           left: 0;
