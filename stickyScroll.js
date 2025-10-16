@@ -271,7 +271,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
 function init() {
   // call stickyScroll for each scrolly, e.g.:
-  // stickyScroll("f1", 1600, 1065);
+  // stickyScroll("f1", 1600/1065);
 }
 
 
