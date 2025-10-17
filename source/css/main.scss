@@ -113,7 +113,7 @@ $xxl: 2048px;
   figure {
     z-index: 0;
 
-    img {
+    img, video {
       opacity: 1;
       transition:
         opacity 400ms,
