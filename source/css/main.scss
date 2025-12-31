@@ -194,6 +194,9 @@ $xxl: 2048px;
         color: #262626;
         padding: 1rem;
 
+        &:empty{
+          padding: 0;
+        }
       }
 
 
