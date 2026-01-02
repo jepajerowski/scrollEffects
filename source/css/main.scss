@@ -126,10 +126,14 @@ $xxl: 2048px;
         opacity: 0;
       }
 
-      &:first-child {
+    }
+
+    > img, > video, .image-wrapper > img, .image-wrapper > video {
+      &:first-child{
         opacity: 1;
       }
     }
+
   }
 
 

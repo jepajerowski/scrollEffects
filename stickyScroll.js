@@ -8,7 +8,99 @@ function toggleHide(element, isHidden) {
   //element.attr('aria-hidden', isHidden);
 }
 
+
+
+
 function stickyScroll(wrapperId, aspectRatio = null) {
+
+
+  function executeFn(fnName, ctx) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    return ctx[fnName].apply(ctx, args);
+  }
+
+  var stepFunctions = {
+    //define custom Functions
+    'gifTransition': gifTransition,
+    'spriteTransition': spriteTransition
+  };
+
+  //sample custom function
+  function gifTransition(response) {
+    if (response.direction === 'down') {
+      let image = images.filter(function(i) { return i == response.index; })[0];
+      image.addEventListener("transitionend", () => {
+        let currentSrc = image.getAttribute("src");
+        let newSrc = image.getAttribute("data-transition-src");
+        console.log(currentSrc, newSrc, currentSrc === newSrc);
+        if (currentSrc === newSrc) {
+
+        } else {
+          console.log("replace image src");
+          image.src = newSrc;
+        }
+      });
+    }
+  }
+
+  function spriteTransition(response) {
+    let $image = images.filter(function(i) { return i == response.index; });
+    let image = $image[0];
+
+    let spriteCount = 40;
+    let columnCount = 10;
+    let rowCount = 4;
+
+    let spriteWrapperId = wrapperId + "-image-" + response.index + "-wrapper";
+    let $spriteWrapper;
+
+    if ($image.parent().attr("id") == spriteWrapperId) {
+      $spriteWrapper = $image.parent();
+      $image.css({
+         "--progress" : response.progress
+      });
+    } else {
+      $image.wrap('<div id="' + spriteWrapperId + '"></div>');
+      $spriteWrapper = $image.parent();
+
+      $spriteWrapper.css({
+        "position": "absolute",
+        "overflow": "clip",
+        "display": "block",
+        'width': '100%',
+        'height': '100%',
+        'top': 0,
+        'left': 0
+      });
+
+      $image.css({
+        "--sprite-count": spriteCount,
+        "--column-count": columnCount,
+        "--row-count": rowCount,
+        "--progress" : response.progress,
+        "--cell": "calc(round(clamp(0, var(--progress), 1) * (var(--sprite-count) - 1) + 1, 1 ))",
+        "--row": "calc(round(up, calc(var(--cell) / var(--column-count)), 1))",
+        "--column": "calc(var(--cell) - (var(--row) - 1) * var(--column-count))",
+
+        "display": "block",
+        "max-width": "unset",
+        "position": "absolute",
+        "top":0,
+        "left" :0,
+        "width": "calc(100% * var(--column-count))",
+        "height": "calc(100% * var(--row-count))",
+        "transform": 'translate3d(calc(-100% * (var(--column, 1) - 1) / var(--column-count, 1)), calc((var(--row, 1) - 1) * -100% / var(--row-count, 1)), 0)'
+      });
+
+
+      image.src = $image.attr("data-transition-src");
+    }
+
+
+
+
+  }
+
 
   var prevWidth = $(window).width();
 
@@ -21,6 +113,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   var step = captions.find('.step');
   var firstStep = captions.find('.step:first-child');
   var lastStep = captions.find('.step:last-child');
+  var longStep = captions.find('.step--long');
   var images = figure.find('img');
   var baseImage = images.filter(':first-child');
   var baseImageEl = baseImage.get(0);
@@ -168,7 +261,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     var figureWidthAsPercent = figureWidth / scrollyWidth; //1
 
     //set new values
-    scrollyWidth = Math.min(maxWidth, $(window).width()); 
+    scrollyWidth = Math.min(maxWidth, $(window).width());
     figureWidth = scrollyWidth * figureWidthAsPercent;
 
     if (isForceFill) {
@@ -200,6 +293,9 @@ function stickyScroll(wrapperId, aspectRatio = null) {
       .css('margin-top', firstStepMT + 'px');
     lastStep
       .css('padding-bottom', lastStepPB + 'px');
+    longStep
+      .css('padding-top', (stepPadding * 2) + 'px')
+      .css('padding-bottom', (stepPadding * 2) + 'px');
     scrolly
       .css('width', scrollyWidth + 'px');
     figure
@@ -219,6 +315,11 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     if (!isWipe) {
       toggleHide(images.filter(function(i) { return i == response.index; }), false);
     }
+
+    let stepFnName = response.element.getAttribute("data-enter-function");
+    if (stepFnName) {
+      executeFn(stepFnName, stepFunctions, response);
+    }
   }
 
   function handleStepExit(response) {
@@ -235,12 +336,22 @@ function stickyScroll(wrapperId, aspectRatio = null) {
         toggleHide(images.filter(function(i) { return i == response.index; }), false);
       }
     }
+
+    let stepFnName = response.element.getAttribute("data-exit-function");
+    if (stepFnName) {
+      executeFn(stepFnName, stepFunctions, response);
+    }
   }
 
   function handleStepProgress(response) {
-    //console.log("PROGRESS", response);
+    console.log("PROGRESS", response);
     if (isWipe) {
       images.filter(function(i) { return i == response.index + 1; }).css('clip-path', updateClipPath(response.progress));
+    }
+
+    let stepFnName = response.element.getAttribute("data-progress-function");
+    if (stepFnName) {
+      executeFn(stepFnName, stepFunctions, response);
     }
   }
 
