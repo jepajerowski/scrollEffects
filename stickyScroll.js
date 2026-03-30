@@ -28,7 +28,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   //sample custom function
   function gifTransition(response) {
     if (response.direction === 'down') {
-      let $image = layers.filter(function(i) { return i == response.index; });
+      let $image = layers.eq(response.index);
       let image = $image[0];
 
       image.addEventListener("transitionend", () => {
@@ -44,7 +44,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function spriteTransition(response) {
-    let $image = layers.filter(function(i) { return i == response.index; });
+    let $image = layers.eq(response.index);
     let image = $image[0];
 
     let spriteCount = 40;
@@ -239,7 +239,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
       if (isWipe) {
         layers.filter(function(i) { return i <= response.index; }).css('clip-path', updateClipPath(1));
         if (response.direction === 'up') {
-          layers.filter(function(i) { return i = response.index + 1; }).css('clip-path', updateClipPath(1));
+          layers.eq(response.index + 1).css('clip-path', updateClipPath(1));
           layers.filter(function(i) { return i > response.index + 1; }).css('clip-path', updateClipPath(0));
         }
       } else {
@@ -313,7 +313,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     figure.toggleClass("translate", true);
 
     if (!isWipe) {
-      toggleHide(layers.filter(function(i) { return i == response.index; }), false);
+      toggleHide(layers.eq(response.index), false);
     }
 
     let stepFnName = response.element.getAttribute("data-enter-function");
@@ -333,7 +333,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
       if (response.direction === 'up') {
         toggleHide(layers.filter(function(i) { return i == response.index && i > 0; }), true);
       } else if (response.direction === 'down') {
-        toggleHide(layers.filter(function(i) { return i == response.index; }), false);
+        toggleHide(layers.eq(response.index), false);
       }
     }
 
@@ -346,7 +346,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   function handleStepProgress(response) {
     
     if (isWipe) {
-      layers.filter(function(i) { return i == response.index + 1; }).css('clip-path', updateClipPath(response.progress));
+      layers.eq(response.index + 1).css('clip-path', updateClipPath(response.progress));
     }
 
     let stepFnName = response.element.getAttribute("data-progress-function");
