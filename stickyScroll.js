@@ -23,12 +23,12 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     //define custom Functions
 
     //sample custom function
-    'spriteTransition': spriteTransition
+    'customFunction': customFunction
   };
 
 
   // sample custom function
-  function spriteTransition(response) {
+  function customFunction(response) {
     let $layer = layers.eq(response.index);
 
     let spriteCount = 25;
