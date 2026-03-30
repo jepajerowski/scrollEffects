@@ -28,23 +28,23 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   //sample custom function
   function gifTransition(response) {
     if (response.direction === 'down') {
-      let image = images.filter(function(i) { return i == response.index; })[0];
-      image.addEventListener("transitionend", () => {
-        let currentSrc = image.getAttribute("src");
-        let newSrc = image.getAttribute("data-transition-src");
-        console.log(currentSrc, newSrc, currentSrc === newSrc);
-        if (currentSrc === newSrc) {
+      let $image = layers.filter(function(i) { return i == response.index; });
+      let image = $image[0];
 
-        } else {
+      image.addEventListener("transitionend", () => {
+        let currentSrc = $image.attr("src");
+        let newSrc = $image.attr("data-transition-src");
+        console.log(currentSrc, newSrc, currentSrc === newSrc);
+        if (currentSrc === newSrc) {} else {
           console.log("replace image src");
-          image.src = newSrc;
+          $image.attr("src", newSrc);
         }
       });
     }
   }
 
   function spriteTransition(response) {
-    let $image = images.filter(function(i) { return i == response.index; });
+    let $image = layers.filter(function(i) { return i == response.index; });
     let image = $image[0];
 
     let spriteCount = 40;
@@ -59,6 +59,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
       $image.css({
          "--progress" : response.progress
       });
+      console.log(response.progress);
     } else {
       $image.wrap('<div id="' + spriteWrapperId + '"></div>');
       $spriteWrapper = $image.parent();
@@ -92,8 +93,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
         "transform": 'translate3d(calc(-100% * (var(--column, 1) - 1) / var(--column-count, 1)), calc((var(--row, 1) - 1) * -100% / var(--row-count, 1)), 0)'
       });
 
-
-      image.src = $image.attr("data-transition-src");
+      $image.attr("src", $image.attr("data-transition-src"));
     }
 
 
@@ -114,8 +114,8 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   var firstStep = captions.find('.step:first-child');
   var lastStep = captions.find('.step:last-child');
   var longStep = captions.find('.step--long');
-  var images = figure.find('img');
-  var baseImage = images.filter(':first-child');
+  var layers = figure.find('img');
+  var baseImage = layers.filter(':first-child');
   var baseImageEl = baseImage.get(0);
 
   //get image width and height if not provided
@@ -149,9 +149,9 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     $(this).children(':not(.step-inner)').appendTo(stepInner);
   });
 
-  //wrap images
+  //wrap layers (images)
   var imageWrapper = $("<div>").addClass("image-wrapper").appendTo(figure);
-  images.each(function(i) {
+  layers.each(function(i) {
     //$(this).attr("aria-describedby", stepPrefix + i);
     $(this).attr("aria-hidden", true);
     imageWrapper.append($(this));
@@ -162,7 +162,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
   // setting initial opacity & wipe placement 
   if (isWipe) {
-    images.css('clip-path', updateClipPath(0));
+    layers.css('clip-path', updateClipPath(0));
     baseImage.css('clip-path', updateClipPath(1));
   } else {
     toggleHide(figure.find('img:not(:first-child)'), true);
@@ -184,7 +184,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
           callback.apply(this, arguments);
         }, delay);
       }
-    }
+    };
   }
 
 
@@ -196,7 +196,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
         callback.apply(this, arguments);
         timer = null;
       }, delay);
-    }
+    };
   }
 
 
@@ -237,14 +237,14 @@ function stickyScroll(wrapperId, aspectRatio = null) {
       //console.log('reset visibility', response);
 
       if (isWipe) {
-        images.filter(function(i) { return i <= response.index; }).css('clip-path', updateClipPath(1));
+        layers.filter(function(i) { return i <= response.index; }).css('clip-path', updateClipPath(1));
         if (response.direction === 'up') {
-          images.filter(function(i) { return i = response.index + 1; }).css('clip-path', updateClipPath(1));
-          images.filter(function(i) { return i > response.index + 1; }).css('clip-path', updateClipPath(0));
+          layers.filter(function(i) { return i = response.index + 1; }).css('clip-path', updateClipPath(1));
+          layers.filter(function(i) { return i > response.index + 1; }).css('clip-path', updateClipPath(0));
         }
       } else {
-        toggleHide(images.filter(function(i) { return i < response.index; }), false);
-        toggleHide(images.filter(function(i) { return i > response.index && i > 0; }), true);
+        toggleHide(layers.filter(function(i) { return i < response.index; }), false);
+        toggleHide(layers.filter(function(i) { return i > response.index && i > 0; }), true);
       }
     }
   }
@@ -294,8 +294,8 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     lastStep
       .css('padding-bottom', lastStepPB + 'px');
     longStep
-      .css('padding-top', (stepPadding * 2) + 'px')
-      .css('padding-bottom', (stepPadding * 2) + 'px');
+      .css('padding-top', (stepPadding * 1.5) + 'px')
+      .css('padding-bottom', (stepPadding * 1.5) + 'px');
     scrolly
       .css('width', scrollyWidth + 'px');
     figure
@@ -307,13 +307,13 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepEnter(response) {
-    //console.log("ENTER", response);
+    console.log("ENTER", response);
     throttledReset(response);
 
     figure.toggleClass("translate", true);
 
     if (!isWipe) {
-      toggleHide(images.filter(function(i) { return i == response.index; }), false);
+      toggleHide(layers.filter(function(i) { return i == response.index; }), false);
     }
 
     let stepFnName = response.element.getAttribute("data-enter-function");
@@ -323,7 +323,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepExit(response) {
-    //console.log("EXIT", response);
+    console.log("EXIT", response);
 
     if (response.direction === 'up' && response.index == 0) {
       figure.toggleClass('translate', false);
@@ -331,9 +331,9 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
     if (!isWipe) {
       if (response.direction === 'up') {
-        toggleHide(images.filter(function(i) { return i == response.index && i > 0; }), true);
+        toggleHide(layers.filter(function(i) { return i == response.index && i > 0; }), true);
       } else if (response.direction === 'down') {
-        toggleHide(images.filter(function(i) { return i == response.index; }), false);
+        toggleHide(layers.filter(function(i) { return i == response.index; }), false);
       }
     }
 
@@ -344,9 +344,9 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepProgress(response) {
-    console.log("PROGRESS", response);
+    
     if (isWipe) {
-      images.filter(function(i) { return i == response.index + 1; }).css('clip-path', updateClipPath(response.progress));
+      layers.filter(function(i) { return i == response.index + 1; }).css('clip-path', updateClipPath(response.progress));
     }
 
     let stepFnName = response.element.getAttribute("data-progress-function");
