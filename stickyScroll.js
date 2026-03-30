@@ -153,10 +153,10 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   var imageWrapper = $("<div>").addClass("image-wrapper").appendTo(figure);
   layers.each(function(i) {
     //$(this).attr("aria-describedby", stepPrefix + i);
-    $(this).attr("aria-hidden", true);
-    imageWrapper.append($(this));
-
     $(this).clone().attr("aria-hidden", null).addClass("sr-only").appendTo($("#" + stepPrefix + i));
+
+    $(this).attr("aria-hidden", true).addClass('scrolly-layer').appendTo(imageWrapper);
+
   });
 
 
