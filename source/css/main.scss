@@ -548,7 +548,8 @@ $xxl: 2048px;
         padding-top: 0 !important;
 
         img,
-        video {
+        video,
+        .scrolly-layer {
           position: relative !important;
           height: auto;
           opacity: 1 !important;
@@ -574,7 +575,8 @@ $xxl: 2048px;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
-    &img{
+
+    &img {
       width: 1px;
     }
   }
