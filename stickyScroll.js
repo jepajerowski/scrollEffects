@@ -21,125 +21,13 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
   var stepFunctions = {
     //define custom Functions
-    'spriteTransition': spriteTransition,
-    'replaceWithGif': replaceWithGif
 
+    //sample custom function
+    'spriteTransition': spriteTransition
   };
 
 
-  // custom functions
-  /*
-  function gifTransition(response) {
-    if (response.direction === 'down') {
-
-      let $image = layers.filter(function(i) { return i == response.index; });
-      let image = $image[0];
-
-      image.addEventListener("transitionend", () => {
-        replaceWithGif(response);
-      }, { once: true });
-
-    }
-  }*/
-
-  function togglePause(event) {
-
-
-    let $gifWrapper = $(this);
-    let $buttons = $gifWrapper.find('.gif-controls .btn');
-
-
-    if ($gifWrapper.hasClass('paused')) {
-      // play
-
-      $gifWrapper.removeClass('paused');
-      if ($buttons.is(event.target)) {
-        //if button was clicked
-        $gifWrapper.find('.btn.pause').focus();
-      }
-
-    } else {
-      //pause
-
-      $gifWrapper.addClass('paused');
-      if ($buttons.is(event.target)) {
-        //if button was clicked
-        $gifWrapper.find('.btn.play').focus();
-      }
-
-    }
-
-  }
-
-  function replaceWithGif(response) {
-
-
-    let $layer = layers.eq(response.index);
-    let $staticImage;
-    let $gifWrapper;
-
-    let gifWrapperId = wrapperId + "-layer-" + response.index;
-
-    if ($layer.hasClass('gif-wrapper')) {
-      //if wrapper already exists
-
-      $gifWrapper = $layer;
-      $staticImage = $layer.find('.static');
-      $gifImage = $layer.find('gif');
-
-      // don't think I need to do anything here??
-      // maybe check for play/pause state and replace just in case??
-
-    } else if ($layer.is('img')) {
-      // first time:
-      // add wrapper 
-
-      $staticImage = $layer;
-      let imgClasses = $staticImage.attr("class");
-
-      $staticImage.wrap('<div id="' + gifWrapperId + '" class="' + imgClasses + '"></div>');
-      $gifWrapper = $staticImage.parent();
-
-
-      $gifWrapper.addClass("gif-wrapper " + imgClasses);
-      $staticImage.removeClass(imgClasses);
-
-
-      // add gif to layer
-
-      $gifImage = $staticImage.clone().addClass("gif").attr("src", $staticImage.attr("data-function-src")).appendTo($gifWrapper);
-      $staticImage.addClass('static');
-
-
-      // add pause button
-
-      $controls = $("<div>").addClass("gif-controls").appendTo($gifWrapper); // create play button
-      $controls
-        .append('<button class="btn play" title="Play gif"><i class="icon-play" aria-hidden="true"></i><span class="sr-only">Play</span></button>')
-        .append('<button class="btn pause" title="Pause gif"><i class="icon-pause" aria-hidden="true"></i><span class="sr-only">Pause</span></button>');
-      $gifWrapper.on('click', togglePause);
-
-
-
-
-      // set to play by default (handled in CSS)
-
-
-      //if reduced motion, set to paused
-      if (isReduced) {
-        $gifWrapper.addClass('paused');
-      }
-
-
-      // update layers object
-      layers = imageWrapper.children('.scrolly-layer'); // update layers object
-
-
-    }
-
-
-  }
-
+  // sample custom function
   function spriteTransition(response) {
     let $layer = layers.eq(response.index);
 
@@ -184,16 +72,12 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
         $image.attr("src", $image.attr("data-function-src"));
 
-
-
         layers = imageWrapper.children('.scrolly-layer'); // update layers object
 
       }
     }
-
-
   }
-
+  //end sample
 
 
   var prevWidth = $(window).width();
