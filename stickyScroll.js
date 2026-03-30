@@ -294,8 +294,8 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     lastStep
       .css('padding-bottom', lastStepPB + 'px');
     longStep
-      .css('padding-top', (stepPadding * 1.5) + 'px')
-      .css('padding-bottom', (stepPadding * 1.5) + 'px');
+      .css('padding-top', (stepPadding * 1.25) + 'px')
+      .css('padding-bottom', (stepPadding * 1.25) + 'px');
     scrolly
       .css('width', scrollyWidth + 'px');
     figure
