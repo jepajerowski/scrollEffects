@@ -113,7 +113,9 @@ $xxl: 2048px;
   figure {
     z-index: 0;
 
-    img, video {
+    img, 
+    video,
+    .scrolly-layer {
       opacity: 1;
       transition:
         opacity 400ms,
@@ -121,15 +123,23 @@ $xxl: 2048px;
       display: block;
       margin: auto;
       width: 100%;
+    }
 
-      &.scrolly-hidden {
+    .scrolly-hidden {
         opacity: 0;
       }
 
+    >img,
+    >video,
+    >.scrolly-layer,
+    .image-wrapper>img,
+    .image-wrapper>video,
+    .image-wrapper>.scrolly-layer {
       &:first-child {
         opacity: 1;
       }
     }
+
   }
 
 
