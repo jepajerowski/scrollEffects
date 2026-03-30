@@ -8,7 +8,77 @@ function toggleHide(element, isHidden) {
   //element.attr('aria-hidden', isHidden);
 }
 
+
+
+
 function stickyScroll(wrapperId, aspectRatio = null) {
+
+
+  function executeFn(fnName, ctx) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    return ctx[fnName].apply(ctx, args);
+  }
+
+  var stepFunctions = {
+    //define custom Functions
+
+    //sample custom function
+    'spriteTransition': spriteTransition
+  };
+
+
+  // sample custom function
+  function spriteTransition(response) {
+    let $layer = layers.eq(response.index);
+
+    let spriteCount = 25;
+    let columnCount = 5;
+    let rowCount = 5;
+
+    let spriteWrapperId = wrapperId + "-layer-" + response.index + "-wrapper";
+    let $spriteWrapper;
+
+
+    if (isReduced) {
+      $image.css({
+        "--progress": 0
+      });
+    } else {
+      if ($layer.hasClass('sprite-wrapper')) {
+        //if wrapper already exists: update
+        $spriteWrapper = $layer;
+        $image = $layer.find('img');
+
+        $image.css({
+          "--progress": response.progress
+        });
+        //console.log(response.progress);
+      } else if ($layer.is('img')) {
+        // first time: initialize
+        $image = $layer;
+        $image.wrap('<div id="' + spriteWrapperId + '"></div>');
+        $spriteWrapper = $image.parent();
+
+
+        let imgClasses = $image.attr("class");
+        $spriteWrapper.addClass("sprite-wrapper " + imgClasses).attr("aria-hidden", true);
+
+        $image.removeClass(imgClasses).css({
+          "--sprite-count": spriteCount,
+          "--column-count": columnCount,
+          "--row-count": rowCount,
+          "--progress": response.progress,
+        });
+
+        $image.attr("src", $image.attr("data-function-src"));
+
+        layers = imageWrapper.children('.scrolly-layer'); // update layers object
+
+      }
+    }
+  }
+  //end sample
+
 
   var prevWidth = $(window).width();
 
@@ -21,8 +91,9 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   var step = captions.find('.step');
   var firstStep = captions.find('.step:first-child');
   var lastStep = captions.find('.step:last-child');
-  var images = figure.find('img');
-  var baseImage = images.filter(':first-child');
+  var longStep = captions.find('.step--long');
+  var layers = figure.find('img');
+  var baseImage = layers.filter(':first-child');
   var baseImageEl = baseImage.get(0);
 
   //get image width and height if not provided
@@ -56,20 +127,20 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     $(this).children(':not(.step-inner)').appendTo(stepInner);
   });
 
-  //wrap images
+  //wrap layers (images)
   var imageWrapper = $("<div>").addClass("image-wrapper").appendTo(figure);
-  images.each(function(i) {
+  layers.each(function(i) {
     //$(this).attr("aria-describedby", stepPrefix + i);
-    $(this).attr("aria-hidden", true);
-    imageWrapper.append($(this));
-
     $(this).clone().attr("aria-hidden", null).addClass("sr-only").appendTo($("#" + stepPrefix + i));
+
+    $(this).attr("aria-hidden", true).addClass('scrolly-layer').appendTo(imageWrapper);
+
   });
 
 
   // setting initial opacity & wipe placement 
   if (isWipe) {
-    images.css('clip-path', updateClipPath(0));
+    layers.css('clip-path', updateClipPath(0));
     baseImage.css('clip-path', updateClipPath(1));
   } else {
     toggleHide(figure.find('img:not(:first-child)'), true);
@@ -91,7 +162,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
           callback.apply(this, arguments);
         }, delay);
       }
-    }
+    };
   }
 
 
@@ -103,7 +174,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
         callback.apply(this, arguments);
         timer = null;
       }, delay);
-    }
+    };
   }
 
 
@@ -144,14 +215,14 @@ function stickyScroll(wrapperId, aspectRatio = null) {
       //console.log('reset visibility', response);
 
       if (isWipe) {
-        images.filter(function(i) { return i <= response.index; }).css('clip-path', updateClipPath(1));
+        layers.filter(function(i) { return i <= response.index; }).css('clip-path', updateClipPath(1));
         if (response.direction === 'up') {
-          images.filter(function(i) { return i = response.index + 1; }).css('clip-path', updateClipPath(1));
-          images.filter(function(i) { return i > response.index + 1; }).css('clip-path', updateClipPath(0));
+          layers.eq(response.index + 1).css('clip-path', updateClipPath(1));
+          layers.filter(function(i) { return i > response.index + 1; }).css('clip-path', updateClipPath(0));
         }
       } else {
-        toggleHide(images.filter(function(i) { return i < response.index; }), false);
-        toggleHide(images.filter(function(i) { return i > response.index && i > 0; }), true);
+        toggleHide(layers.filter(function(i) { return i < response.index; }), false);
+        toggleHide(layers.filter(function(i) { return i > response.index && i > 0; }), true);
       }
     }
   }
@@ -168,7 +239,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     var figureWidthAsPercent = figureWidth / scrollyWidth; //1
 
     //set new values
-    scrollyWidth = Math.min(maxWidth, $(window).width()); 
+    scrollyWidth = Math.min(maxWidth, $(window).width());
     figureWidth = scrollyWidth * figureWidthAsPercent;
 
     if (isForceFill) {
@@ -200,6 +271,9 @@ function stickyScroll(wrapperId, aspectRatio = null) {
       .css('margin-top', firstStepMT + 'px');
     lastStep
       .css('padding-bottom', lastStepPB + 'px');
+    longStep
+      .css('padding-top', (stepPadding * 1.25) + 'px')
+      .css('padding-bottom', (stepPadding * 1.25) + 'px');
     scrolly
       .css('width', scrollyWidth + 'px');
     figure
@@ -211,18 +285,23 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepEnter(response) {
-    //console.log("ENTER", response);
+    console.log("ENTER", response);
     throttledReset(response);
 
     figure.toggleClass("translate", true);
 
     if (!isWipe) {
-      toggleHide(images.filter(function(i) { return i == response.index; }), false);
+      toggleHide(layers.eq(response.index), false);
+    }
+
+    let stepFnName = response.element.getAttribute("data-enter-function");
+    if (stepFnName) {
+      executeFn(stepFnName, stepFunctions, response);
     }
   }
 
   function handleStepExit(response) {
-    //console.log("EXIT", response);
+    console.log("EXIT", response);
 
     if (response.direction === 'up' && response.index == 0) {
       figure.toggleClass('translate', false);
@@ -230,17 +309,27 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
     if (!isWipe) {
       if (response.direction === 'up') {
-        toggleHide(images.filter(function(i) { return i == response.index && i > 0; }), true);
+        toggleHide(layers.filter(function(i) { return i == response.index && i > 0; }), true);
       } else if (response.direction === 'down') {
-        toggleHide(images.filter(function(i) { return i == response.index; }), false);
+        toggleHide(layers.eq(response.index), false);
       }
+    }
+
+    let stepFnName = response.element.getAttribute("data-exit-function");
+    if (stepFnName) {
+      executeFn(stepFnName, stepFunctions, response);
     }
   }
 
   function handleStepProgress(response) {
-    //console.log("PROGRESS", response);
+    
     if (isWipe) {
-      images.filter(function(i) { return i == response.index + 1; }).css('clip-path', updateClipPath(response.progress));
+      layers.eq(response.index + 1).css('clip-path', updateClipPath(response.progress));
+    }
+
+    let stepFnName = response.element.getAttribute("data-progress-function");
+    if (stepFnName) {
+      executeFn(stepFnName, stepFunctions, response);
     }
   }
 
