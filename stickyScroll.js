@@ -21,85 +21,179 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
   var stepFunctions = {
     //define custom Functions
-    'gifTransition': gifTransition,
-    'spriteTransition': spriteTransition
+    'spriteTransition': spriteTransition,
+    'replaceWithGif': replaceWithGif
+
   };
 
-  //sample custom function
+
+  // custom functions
+  /*
   function gifTransition(response) {
     if (response.direction === 'down') {
-      let $image = layers.eq(response.index);
+
+      let $image = layers.filter(function(i) { return i == response.index; });
       let image = $image[0];
 
       image.addEventListener("transitionend", () => {
-        let currentSrc = $image.attr("src");
-        let newSrc = $image.attr("data-transition-src");
-        console.log(currentSrc, newSrc, currentSrc === newSrc);
-        if (currentSrc === newSrc) {} else {
-          console.log("replace image src");
-          $image.attr("src", newSrc);
-        }
-      });
+        replaceWithGif(response);
+      }, { once: true });
+
     }
+  }*/
+
+  function togglePause(event) {
+
+
+    let $gifWrapper = $(this);
+    let $buttons = $gifWrapper.find('.gif-controls .btn');
+
+
+    if ($gifWrapper.hasClass('paused')) {
+      // play
+
+      $gifWrapper.removeClass('paused');
+      if ($buttons.is(event.target)) {
+        //if button was clicked
+        $gifWrapper.find('.btn.pause').focus();
+      }
+
+    } else {
+      //pause
+
+      $gifWrapper.addClass('paused');
+      if ($buttons.is(event.target)) {
+        //if button was clicked
+        $gifWrapper.find('.btn.play').focus();
+      }
+
+    }
+
+  }
+
+  function replaceWithGif(response) {
+
+
+    let $layer = layers.eq(response.index);
+    let $staticImage;
+    let $gifWrapper;
+
+    let gifWrapperId = wrapperId + "-layer-" + response.index;
+
+    if ($layer.hasClass('gif-wrapper')) {
+      //if wrapper already exists
+
+      $gifWrapper = $layer;
+      $staticImage = $layer.find('.static');
+      $gifImage = $layer.find('gif');
+
+      // don't think I need to do anything here??
+      // maybe check for play/pause state and replace just in case??
+
+    } else if ($layer.is('img')) {
+      // first time:
+      // add wrapper 
+
+      $staticImage = $layer;
+      let imgClasses = $staticImage.attr("class");
+
+      $staticImage.wrap('<div id="' + gifWrapperId + '" class="' + imgClasses + '"></div>');
+      $gifWrapper = $staticImage.parent();
+
+
+      $gifWrapper.addClass("gif-wrapper " + imgClasses);
+      $staticImage.removeClass(imgClasses);
+
+
+      // add gif to layer
+
+      $gifImage = $staticImage.clone().addClass("gif").attr("src", $staticImage.attr("data-function-src")).appendTo($gifWrapper);
+      $staticImage.addClass('static');
+
+
+      // add pause button
+
+      $controls = $("<div>").addClass("gif-controls").appendTo($gifWrapper); // create play button
+      $controls
+        .append('<button class="btn play" title="Play gif"><i class="icon-play" aria-hidden="true"></i><span class="sr-only">Play</span></button>')
+        .append('<button class="btn pause" title="Pause gif"><i class="icon-pause" aria-hidden="true"></i><span class="sr-only">Pause</span></button>');
+      $gifWrapper.on('click', togglePause);
+
+
+
+
+      // set to play by default (handled in CSS)
+
+
+      //if reduced motion, set to paused
+      if (isReduced) {
+        $gifWrapper.addClass('paused');
+      }
+
+
+      // update layers object
+      layers = imageWrapper.children('.scrolly-layer'); // update layers object
+
+
+    }
+
+
   }
 
   function spriteTransition(response) {
-    let $image = layers.eq(response.index);
-    let image = $image[0];
+    let $layer = layers.eq(response.index);
 
-    let spriteCount = 40;
-    let columnCount = 10;
-    let rowCount = 4;
+    let spriteCount = 25;
+    let columnCount = 5;
+    let rowCount = 5;
 
-    let spriteWrapperId = wrapperId + "-image-" + response.index + "-wrapper";
+    let spriteWrapperId = wrapperId + "-layer-" + response.index + "-wrapper";
     let $spriteWrapper;
 
-    if ($image.parent().attr("id") == spriteWrapperId) {
-      $spriteWrapper = $image.parent();
+
+    if (isReduced) {
       $image.css({
-         "--progress" : response.progress
+        "--progress": 0
       });
-      console.log(response.progress);
     } else {
-      $image.wrap('<div id="' + spriteWrapperId + '"></div>');
-      $spriteWrapper = $image.parent();
+      if ($layer.hasClass('sprite-wrapper')) {
+        //if wrapper already exists: update
+        $spriteWrapper = $layer;
+        $image = $layer.find('img');
 
-      $spriteWrapper.css({
-        "position": "absolute",
-        "overflow": "clip",
-        "display": "block",
-        'width': '100%',
-        'height': '100%',
-        'top': 0,
-        'left': 0
-      });
+        $image.css({
+          "--progress": response.progress
+        });
+        //console.log(response.progress);
+      } else if ($layer.is('img')) {
+        // first time: initialize
+        $image = $layer;
+        $image.wrap('<div id="' + spriteWrapperId + '"></div>');
+        $spriteWrapper = $image.parent();
 
-      $image.css({
-        "--sprite-count": spriteCount,
-        "--column-count": columnCount,
-        "--row-count": rowCount,
-        "--progress" : response.progress,
-        "--cell": "calc(round(clamp(0, var(--progress), 1) * (var(--sprite-count) - 1) + 1, 1 ))",
-        "--row": "calc(round(up, calc(var(--cell) / var(--column-count)), 1))",
-        "--column": "calc(var(--cell) - (var(--row) - 1) * var(--column-count))",
 
-        "display": "block",
-        "max-width": "unset",
-        "position": "absolute",
-        "top":0,
-        "left" :0,
-        "width": "calc(100% * var(--column-count))",
-        "height": "calc(100% * var(--row-count))",
-        "transform": 'translate3d(calc(-100% * (var(--column, 1) - 1) / var(--column-count, 1)), calc((var(--row, 1) - 1) * -100% / var(--row-count, 1)), 0)'
-      });
+        let imgClasses = $image.attr("class");
+        $spriteWrapper.addClass("sprite-wrapper " + imgClasses).attr("aria-hidden", true);
 
-      $image.attr("src", $image.attr("data-transition-src"));
+        $image.removeClass(imgClasses).css({
+          "--sprite-count": spriteCount,
+          "--column-count": columnCount,
+          "--row-count": rowCount,
+          "--progress": response.progress,
+        });
+
+        $image.attr("src", $image.attr("data-function-src"));
+
+
+
+        layers = imageWrapper.children('.scrolly-layer'); // update layers object
+
+      }
     }
 
 
-
-
   }
+
 
 
   var prevWidth = $(window).width();

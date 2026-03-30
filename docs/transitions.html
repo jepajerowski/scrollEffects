@@ -72,52 +72,61 @@
 <p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam pharetra tortor vitae est placerat, sit amet consequat sapien vulputate. Vestibulum at tincidunt tortor, at fringilla ante. Pellentesque nisl dolor, fringilla sit amet turpis eu, fringilla mollis leo. In consectetur felis erat, ac placerat ex porta id. In sed erat quis massa vehicula sagittis. Fusce ipsum diam, varius vitae augue faucibus, fermentum porttitor libero. Fusce viverra, eros vel commodo accumsan, velit nibh sodales nulla, sed mattis risus libero vel dui. Donec bibendum iaculis magna. Vestibulum vestibulum, est aliquam tempus ullamcorper, nunc diam ornare quam, non scelerisque lectus ex auctor augue. Maecenas et tincidunt leo. Morbi ornare velit eget rutrum egestas. Fusce ut lorem vitae neque ultrices aliquam sagittis hendrerit est. Cras interdum elit in erat faucibus, a cursus sem accumsan. Etiam tincidunt urna at elementum lacinia.</p>
 <p>Donec fringilla feugiat leo in suscipit. Integer sodales nisi mi, vel commodo libero placerat dapibus. Sed egestas rhoncus metus eu vehicula. Cras porttitor ultricies erat at rutrum. Maecenas dapibus ultricies porta. Nulla lorem neque, consectetur eget arcu at, dapibus tristique nulla. Nam sagittis nibh lorem, ut fermentum metus euismod eget. Nunc vehicula fermentum nunc in volutpat. Maecenas et viverra sem. Pellentesque a iaculis sapien. Morbi in arcu rhoncus, egestas urna vitae, tempor dui. Nullam tincidunt venenatis nibh, a iaculis arcu porttitor in. Sed tincidunt tincidunt maximus. Etiam porta tortor hendrerit semper vehicula. Vivamus ultricies malesuada leo eget tincidunt.</p>
 
-<section id="scroll-1" class="scroll-wrapper" >
-  <div class="sticky-scroll image-right">
+<figure id="scroll-1" class="news-article__figure border-light-gray">
+  <figcaption class="news-article__figure__upper-caption mb-1x">
+    <h3 class="text-lg letter-spacing-default">Controlled collapse</h3>
+    <p>Gone are the days when a football helmet consisted of a simple rigid shell lined with foam padding. Instead, new materials, designs, and technologies enable a modern helmet to flex and deform. Tests that mimic real head blows show the new features help absorb energy and limit potentially damaging accelerations within the brain.</p>
+  </figcaption>
+  <div class="sticky-scroll container-width image-right">
     <figure>
-      <img src="demo-images/helmets-overview-1.jpg" alt="" />
-      <img src="demo-images/helmets-overview-2.png" alt="" />
-      <img src="demo-images/helmets-brain-twist.gif" alt="TK"/>
-      <img src="demo-images/helmets-brain.jpg" alt="" data-transition-src="demo-images/helmets-transition-sprites.jpg" />
-      <img src="demo-images/transparent.png" alt="" />
-      <img src="demo-images/helmets-main-flexible.gif" alt="" />
-      <img src="demo-images/helmets-main-bigger.jpg" alt="" />
-      <img src="demo-images/helmets-main-glide.gif" alt="" />
+      <img src="demo-images/helmets-collision-base.jpg" alt="Illustration of two football players colliding. The front of one player's helmet is making contact with the side of the other's helmet." /> 
+      <img src="demo-images/helmets-collision-annotation.png" alt="Arrows and labels for the previous image. The player taking the impact on the front of their helmet undergoes linear acceleration, shown by an arrow pointing straight back toward their torso. The player taking the impact on the side of the head undergoes rotational acceleration as their head turns to the side." /> 
+      <img src="demo-images/helmets-brain-arrows.jpg" alt="Illustration of the brain twisting." data-function-src="demo-images/helmets-brain-twist.gif" /> 
+      <img src="demo-images/helmets-brain.jpg" alt="" data-function-src="demo-images/helmets-brain-transition-sprites.jpg" /> 
+      <img src="demo-images/helmets-main_guy-base.jpg" alt="Illustration of a person wearing a helmet, a quarter of which is cut away to reveal the padding inside." /> 
+      <img src="demo-images/helmets-deformation-static.png" alt="An arrow representing impact on the shell of the helmet is followed by a dent and a series of concentric circles representing deformation." data-function-src="demo-images/helmets-deformation.gif" /> 
+      <img src="demo-images/helmets-main_guy-larger-line.jpg" alt="A line calls attention to the distance between the skull and the shell of the helmet." /> 
+      <img src="demo-images/helmets-main_guy-cushion.jpg" alt="The padding inside the helmet is highlighted." /> 
+      <img src="demo-images/helmets-cushion-cross_section.jpg" alt="An illustrated cross section of one unit of padding. It consists of a collapsible four-tiered cone, set inside an outer cylinder, both made of 3D-printed elastomer, with a foam cushion at the bottom." /> 
+      <img src="demo-images/helmets-cushion-crumple-static.jpg" alt="Animation of the padding crumpling. As force is exerted from the bottom, the tiers collapse one by one, starting with the lowest, smallest tier. " data-function-src="demo-images/helmets-cushion-crumple.gif" />
     </figure>
     <div class="scroll-captions">
+      <div class="step">&nbsp;</div>
       <div class="step">
-        <h3>Graphic hed TK</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <h3>Action and reaction</h3>
+        <p>As a player&rsquo;s head recoils from a blow, it can undergo straight linear acceleration, twisting rotational acceleration, or both, depending on the blow&rsquo;s direction and location on the helmet.</p>
       </div>
+      <div class="step" data-enter-function="replaceWithGif">
+        <h3>Twisting trauma</h3>
+        <p>Key to concussion, a rotational acceleration can cause the brain to twist and stretch&mdash;in some regions, as much as 20%, computer simulations like this one suggest. The stretching appears to set off a cascade of cellular signaling that causes concussion symptoms. Test protocols aim to probe a helmet&rsquo;s ability to reduce both linear and rotational accelerations.</p>
+      </div>
+      <div class="step" data-progress-function="spriteTransition">&nbsp;</div>
       <div class="step">
-        <h4>Rotational acceleration</h4>
-        <p>The amount of force with which the head rotates around its anchor point, the neck, has a big impact on the brain.</p>
+        <h3>Protective strategies</h3>
+        <p>Both the helmet&rsquo;s shell and its liner have been redesigned to crumple in a collision, absorbing energy and reducing the forces on the head and brain.</p>
       </div>
-      <div class="step">
-        <h3>Concussion caused by stretched brain tissue</h3>
-        <p>Rotational movement of brain tissues causes brain cells to stretch, kicking off a signaling cascade that can either cause repair... or cell death. </p>
-      </div>
-      <div class="step step--long" data-progress-function="spriteTransition">
-      </div>
-      <div class="step">
-        <p>Strategies that helmets use to reduce impact on the brain include:</p>
-      </div>
-       <div class="step">
-        <h4>Flexible shells</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <div class="step" data-enter-function="replaceWithGif">
+        <h4>Softer shells</h4>
+        <p>Molded from more pliable materials and perforated to allow for flexing, the shell of a modern football helmet bends under a blow, much like a car&rsquo;s crumple zones do. Unlike the car, the helmet returns to its original shape.</p>
       </div>
       <div class="step">
-        <h4>Helmets are bigger</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <h4>Bigger helmets</h4>
+        <p>Continuing a decadeslong trend, modern helmets have also gotten bigger. The extra padded space between shell and scalp gives the head more room and time to slow down.</p>
       </div>
       <div class="step">
-        <h4>Lightweight and highly collapsible padding</h4>
-        <p>3D printed helmet padding can be lighter weight and are designed to Flex, Crumple, and allow the helmet to move around the head to dissapate the force of impact.</p>
+        <h4>3D less-is-more padding</h4>
+        <p>Liners used to rely on foam and, sometimes, air bladders as padding. Now many helmets employ 3D-printed liners, such as the K3D technology from KOLLIDE.</p>
+      </div>
+      <div class="step">
+        <p>Such pads exploit the subtle and tunable physics of crumpling. One version is designed to collapse in sections, absorbing more energy at each stage.</p>
+      </div>
+      <div class="step" data-enter-function="replaceWithGif">
+        <p>Made of less material, they can compress to as little as 10% to 20% of their original thickness, as opposed to 40% to 50% for foam.</p>
       </div>
     </div>
   </div>
-  <div class="credit">N. Burgess/<i>Science</i></div>
-</section>
+  <figcaption class="news-article__figure__caption"><span class="text-sm text-gray letter-spacing-default"><span class="text-xxs text-uppercase">(Data) Light; Kollide; K3D; (Graphic) N. Burgess/<i>Science</i></span></span></figcaption>
+</figure>
      
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel odio vehicula, imperdiet nibh sed, accumsan ipsum. Morbi at lobortis est. Suspendisse id purus aliquet, pretium mi id, imperdiet metus. Duis tincidunt suscipit dolor ut vestibulum. Integer commodo, quam non finibus fermentum, purus enim tristique lorem, eget venenatis augue arcu ac nisi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur malesuada tortor et tellus convallis, lobortis interdum lacus maximus.</p>
 <p>Pellentesque velit orci, cursus vel consectetur ut, scelerisque dictum ex. Nulla id tortor nec nibh molestie molestie. In ut elementum orci. Morbi vitae diam eros. Donec facilisis egestas faucibus. Pellentesque gravida lectus ligula, eget dignissim justo vehicula tristique. Mauris elementum tempus diam eu pharetra. Morbi ex lectus, elementum quis risus at, consequat tincidunt nunc. Suspendisse volutpat, dolor sit amet faucibus congue, risus ligula vestibulum dolor, posuere commodo ipsum quam viverra nisi. Donec nisl dui, imperdiet sed gravida eget, molestie at mauris.</p>
@@ -139,6 +148,97 @@ if (document.readyState === "loading") {
   init();
 }
 </script>
+
+
+<style>
+/*transitions*/
+.sticky-scroll.scrolly-loaded figure .image-wrapper .sprite-wrapper {
+  position: absolute;
+  overflow: clip;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+@media print {
+  .sticky-scroll.scrolly-loaded figure .image-wrapper .sprite-wrapper {
+    display: none;
+  }
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .sprite-wrapper img {
+  --cell: calc(round(clamp(0, calc(var(--progress) * 1.2), 1) * (var(--sprite-count) - 1) + 1, 1));
+  --row: calc(round(up, calc(var(--cell) / var(--column-count)), 1));
+  --column: calc(var(--cell) - (var(--row) - 1) * var(--column-count));
+  display: block;
+  max-width: unset;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% * var(--column-count));
+  height: calc(100% * var(--row-count));
+  transform: translate3d(calc(-100% * (var(--column, 1) - 1) / var(--column-count, 1)), calc((var(--row, 1) - 1) * -100% / var(--row-count, 1)), 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sticky-scroll.scrolly-loaded figure .image-wrapper .sprite-wrapper img {
+    transform: unset;
+  }
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper .gif-controls {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  opacity: 0.5;
+  transition: opacity 0.15s ease-in-out;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper .gif-controls .btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  font-size: 2rem;
+  color: #262626;
+  justify-content: center;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper .gif-controls .pause {
+  display: inline-flex;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper .gif-controls .play {
+  display: none;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper:hover .gif-controls,
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper .gif-controls:hover {
+  opacity: 0.75;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper .static,
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper .gif {
+  transition: opacity 0s;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper .static {
+  opacity: 0;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper .gif {
+  opacity: 1;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper.paused .gif-controls .pause {
+  display: none;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper.paused .gif-controls .play {
+  display: inline-flex;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper.paused .static {
+  opacity: 1;
+}
+.sticky-scroll.scrolly-loaded figure .image-wrapper .gif-wrapper.paused .gif {
+  opacity: 0;
+}
+@media print {
+  .sticky-scroll.scrolly-loaded figure .image-wrapper .gif,
+  .sticky-scroll.scrolly-loaded figure .image-wrapper .sprite-wrapper {
+    display: none;
+  }
+}
+</style>
+
 <!--end demo-->
 
 
