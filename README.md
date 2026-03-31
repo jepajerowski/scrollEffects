@@ -78,6 +78,7 @@ Classes can be added to `.sticky-scroll` for variations.
 - `no-animation`: Used with `image-right`. Removes the shift-right animation; image is positioned to the right from the start. 
 - `force-fill`: The sticky scroll fills full height and width of viewport. Will result in part of the image being hidden depending on viewport dimensions. Overrides `container-width` if used together.
 - `wipe`: Adds a wipe transition between images which progresses as user scrolls.
+- `no-layering`: Images swap instead of layering. See [Image Progression](#image-progression)
 
 ### Caption options
 
@@ -109,7 +110,8 @@ The `object-position` CSS property can be used on the `img` as an approximate "f
 ```
 
 ## Image progression
-Images are layered, so transparent PNGs can be used to gradually add annotations/layers.
+### Default
+By default, images stay visible as the user scrolls down and each successive image is layered over the last, so transparent PNGs can be used to gradually add annotations/layers.
 
 The images and captions are 1 to 1, e.g. the second image is revealed as the second `step` scrolls over the image.
 
@@ -139,4 +141,13 @@ To have multiple captions scroll over the same image within a scrolly, include a
   <div class="step">Caption 3 reveals Image 3</div>
 </div>
 ```
+
+### `no-layering` option
+
+When `.sticky-scroll` has the class `no-layering`, images swap instead of layering. Each image is re-hidden as the associated step scrolls out of the viewport (with the exception of the first image, which is always visible). 
+
+Add the class `visibility-sticky` to an individual image/layer to override and keep that image visible even once the user scrolls past it.
+
+`no-layering` is currently not supported for `wipe` variation.
+
 

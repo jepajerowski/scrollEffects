@@ -117,6 +117,8 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   var isForceFill = scrolly.hasClass('force-fill');
   var isWipe = (scrolly.hasClass('wipe') && !isReduced);
   var isContainerWidth = scrolly.hasClass('container-width');
+  var noLayering = scrolly.hasClass('no-layering');
+
 
 
   var stepPrefix = wrapperId + "-step-";
@@ -221,8 +223,20 @@ function stickyScroll(wrapperId, aspectRatio = null) {
           layers.filter(function(i) { return i > response.index + 1; }).css('clip-path', updateClipPath(0));
         }
       } else {
-        toggleHide(layers.filter(function(i) { return i < response.index; }), false);
+        // hide all after this step
         toggleHide(layers.filter(function(i) { return i > response.index && i > 0; }), true);
+
+        if (noLayering) {
+          // hide all before this step unless it is set to stay visible
+          toggleHide(layers.filter(function(i) { return i < response.index && i > 0 && !$(this).hasClass('visibility-sticky'); }), true);
+          // show layers before this one if set to stay visible
+          toggleHide(layers.filter(function(i) { return i < response.index && $(this).hasClass('visibility-sticky'); }), false);
+
+        } else {
+          //show all before this step
+          toggleHide(layers.filter(function(i) { return i < response.index; }), false);
+
+        }
       }
     }
   }
@@ -291,7 +305,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     figure.toggleClass("translate", true);
 
     if (!isWipe) {
-      toggleHide(layers.eq(response.index), false);
+      toggleHide(layers.eq(response.index), false); //unhide this
     }
 
     let stepFnName = response.element.getAttribute("data-enter-function");
@@ -309,9 +323,17 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
     if (!isWipe) {
       if (response.direction === 'up') {
-        toggleHide(layers.filter(function(i) { return i == response.index && i > 0; }), true);
+        //scrolling up the page (exits bottom)
+        toggleHide(layers.filter(function(i) { return i == response.index && i > 0; }), true); //hide this and any following
       } else if (response.direction === 'down') {
-        toggleHide(layers.eq(response.index), false);
+        //scrolling down the page (exits top)
+        if (noLayering) {
+          // hide unless set to stay visible
+          toggleHide(layers.filter(function(i) { return i == response.index && !$(this).hasClass('visibility-sticky'); }), true);
+        } else {
+          // stay visible on exit
+          toggleHide(layers.eq(response.index), false);
+        }
       }
     }
 
@@ -322,7 +344,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepProgress(response) {
-    
+
     if (isWipe) {
       layers.eq(response.index + 1).css('clip-path', updateClipPath(response.progress));
     }
