@@ -72,7 +72,7 @@ The `sticky-scroll` element should take the place of the `news-article__figure__
 
 ### Variations
 Classes can be added to `.sticky-scroll` for variations.
-- Default: Sticky scroll is sized as close to full-width as it can be while still keeping the entire figure within the viewport. Captions appear on top of image. Images transition via fade. 
+- Default: Sticky scroll is sized as close to full-width as it can be while still keeping the entire figure within the viewport. Captions appear on top of image. Images transition via fade.
 - `container-width`: The sticky scroll is limited to a max-width of 1110px.
 - `image-right`: Image shifts right on desktop, with captions displaying to the left.
 - `no-animation`: Used with `image-right`. Removes the shift-right animation; image is positioned to the right from the start. 
@@ -111,7 +111,7 @@ The `object-position` CSS property can be used on the `img` as an approximate "f
 
 ## Image progression
 ### Default
-Images stay visible and each successive image is layered over the last, so transparent PNGs can be used to gradually add annotations/layers.
+By default, images stay visible as the user scrolls down and each successive image is layered over the last, so transparent PNGs can be used to gradually add annotations/layers.
 
 The images and captions are 1 to 1, e.g. the second image is revealed as the second `step` scrolls over the image.
 
