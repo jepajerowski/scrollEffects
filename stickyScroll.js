@@ -250,7 +250,6 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepEnter(response) {
-    console.log("ENTER", response);
     throttledReset(response);
 
     figure.toggleClass("translate", true);
@@ -266,8 +265,6 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepExit(response) {
-    console.log("EXIT", response);
-
     if (response.direction === 'up' && response.index == 0) {
       figure.toggleClass('translate', false);
     }
