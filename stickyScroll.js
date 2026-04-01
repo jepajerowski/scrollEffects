@@ -178,9 +178,9 @@ function stickyScroll(wrapperId, aspectRatio = null) {
         toggleHide(layers.filter(function(i) { return i > response.index && i > 0; }), true);
 
         if (noLayering) {
-          // hide all before this step unless it is set to stay visible
+          // hide all layers before this one (except base image) unless they are set to stay visible
           toggleHide(layers.filter(function(i) { return i < response.index && i > 0 && !$(this).hasClass('visibility-sticky'); }), true);
-          // show layers before this one if set to stay visible
+          // show layers before this one if they are set to stay visible
           toggleHide(layers.filter(function(i) { return i < response.index && $(this).hasClass('visibility-sticky'); }), false);
 
         } else {
@@ -275,10 +275,13 @@ function stickyScroll(wrapperId, aspectRatio = null) {
         toggleHide(layers.filter(function(i) { return i == response.index && i > 0; }), true); //hide this and any following
       } else if (response.direction === 'down') {
         //scrolling down the page (exits top)
-        if (noLayering) {
-          // hide unless set to stay visible
+        if (noLayering && !lastStep.is(response.element)) {
+          // if no layering (except for last step):
+          // hide unless layer is set to stay visible
           toggleHide(layers.filter(function(i) { return i == response.index && !$(this).hasClass('visibility-sticky'); }), true);
+
         } else {
+          // if layering on, or it's the last step:
           // stay visible on exit
           toggleHide(layers.eq(response.index), false);
         }
