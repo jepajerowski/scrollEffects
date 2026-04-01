@@ -8,77 +8,28 @@ function toggleHide(element, isHidden) {
   //element.attr('aria-hidden', isHidden);
 }
 
+var stepFunctions;
 
+/*stepFunctions = {
+  //define custom functions, e.g.:
 
+  'customFunction': customFunction
+};
+
+//sample custom function
+function customFunction(response, layer) {
+  console.log("custom function called");
+}
+*/
 
 function stickyScroll(wrapperId, aspectRatio = null) {
-
 
   function executeFn(fnName, ctx) {
     var args = Array.prototype.slice.call(arguments, 2);
     return ctx[fnName].apply(ctx, args);
   }
 
-  var stepFunctions = {
-    //define custom Functions
-
-    //sample custom function
-    'customFunction': customFunction
-  };
-
-
-  // sample custom function
-  function customFunction(response) {
-    let $layer = layers.eq(response.index);
-
-    let spriteCount = 25;
-    let columnCount = 5;
-    let rowCount = 5;
-
-    let spriteWrapperId = wrapperId + "-layer-" + response.index + "-wrapper";
-    let $spriteWrapper;
-
-
-    if (isReduced) {
-      $image.css({
-        "--progress": 0
-      });
-    } else {
-      if ($layer.hasClass('sprite-wrapper')) {
-        //if wrapper already exists: update
-        $spriteWrapper = $layer;
-        $image = $layer.find('img');
-
-        $image.css({
-          "--progress": response.progress
-        });
-        //console.log(response.progress);
-      } else if ($layer.is('img')) {
-        // first time: initialize
-        $image = $layer;
-        $image.wrap('<div id="' + spriteWrapperId + '"></div>');
-        $spriteWrapper = $image.parent();
-
-
-        let imgClasses = $image.attr("class");
-        $spriteWrapper.addClass("sprite-wrapper " + imgClasses).attr("aria-hidden", true);
-
-        $image.removeClass(imgClasses).css({
-          "--sprite-count": spriteCount,
-          "--column-count": columnCount,
-          "--row-count": rowCount,
-          "--progress": response.progress,
-        });
-
-        $image.attr("src", $image.attr("data-function-src"));
-
-        layers = imageWrapper.children('.scrolly-layer'); // update layers object
-
-      }
-    }
-  }
-  //end sample
-
+  //can move stepFunctions here if functions need the stickyScroll context
 
   var prevWidth = $(window).width();
 
@@ -310,7 +261,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
     let stepFnName = response.element.getAttribute("data-enter-function");
     if (stepFnName) {
-      executeFn(stepFnName, stepFunctions, response);
+      executeFn(stepFnName, stepFunctions, response, layers.eq(response.index));
     }
   }
 
@@ -339,7 +290,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
     let stepFnName = response.element.getAttribute("data-exit-function");
     if (stepFnName) {
-      executeFn(stepFnName, stepFunctions, response);
+      executeFn(stepFnName, stepFunctions, response, layers.eq(response.index));
     }
   }
 
@@ -351,7 +302,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
     let stepFnName = response.element.getAttribute("data-progress-function");
     if (stepFnName) {
-      executeFn(stepFnName, stepFunctions, response);
+      executeFn(stepFnName, stepFunctions, response, layers.eq(response.index));
     }
   }
 
