@@ -15,6 +15,7 @@ $xxl: 2048px;
 @mixin caption-left {
   @media (min-width: $md) {
     margin: auto auto auto 0;
+    max-width: 22rem;
 
     .news-article__stat {
       text-align: left;
@@ -38,6 +39,7 @@ $xxl: 2048px;
 @mixin caption-right {
   @media (min-width: $md) {
     margin: auto 0 auto auto;
+    max-width: 22rem;
 
     .news-article__stat {
       text-align: left;
