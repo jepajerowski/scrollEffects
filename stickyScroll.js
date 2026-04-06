@@ -321,7 +321,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     scroller.setup({
         step: '#' + wrapperId + ' .sticky-scroll .scroll-captions .step',
         offset: scrollOffset,
-        debug: false,
+        debug: true,
         progress: true
       })
       .onStepEnter(handleStepEnter)
