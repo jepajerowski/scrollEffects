@@ -254,6 +254,8 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepEnter(response) {
+    console.log("enter", response);
+
     throttledReset(response);
 
     figure.toggleClass("translate", true);
@@ -269,6 +271,8 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepExit(response) {
+    console.log("exit", response);
+
     if (response.direction === 'up' && response.index == 0) {
       figure.toggleClass('translate', false);
     }
@@ -299,6 +303,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepProgress(response) {
+    console.log("progress", response);
 
     if (isWipe) {
       layers.eq(response.index + 1).css('clip-path', updateClipPath(response.progress));
