@@ -205,8 +205,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     var figureWidthAsPercent = figureWidth / scrollyWidth; //1
 
     //set new values
-    //scrollyWidth = Math.min(maxWidth, $(window).width());
-    scrollyWidth = 600;
+    scrollyWidth = Math.min(maxWidth, $(window).width());
     figureWidth = scrollyWidth * figureWidthAsPercent;
 
     if (isForceFill) {
@@ -255,7 +254,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepEnter(response) {
-    console.log("enter", response);
+    //console.log("enter", response);
 
     throttledReset(response);
 
@@ -272,7 +271,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepExit(response) {
-    console.log("exit", response);
+    //console.log("exit", response);
 
     if (response.direction === 'up' && response.index == 0) {
       figure.toggleClass('translate', false);
@@ -304,7 +303,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   }
 
   function handleStepProgress(response) {
-    console.log("progress", response);
+    //console.log("progress", response);
 
     if (isWipe) {
       layers.eq(response.index + 1).css('clip-path', updateClipPath(response.progress));
@@ -322,7 +321,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     scroller.setup({
         step: '#' + wrapperId + ' .sticky-scroll .scroll-captions .step',
         offset: scrollOffset,
-        debug: true,
+        debug: false,
         progress: true
       })
       .onStepEnter(handleStepEnter)
