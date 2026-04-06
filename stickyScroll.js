@@ -205,7 +205,8 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     var figureWidthAsPercent = figureWidth / scrollyWidth; //1
 
     //set new values
-    scrollyWidth = Math.min(maxWidth, $(window).width());
+    //scrollyWidth = Math.min(maxWidth, $(window).width());
+    scrollyWidth = 600;
     figureWidth = scrollyWidth * figureWidthAsPercent;
 
     if (isForceFill) {
