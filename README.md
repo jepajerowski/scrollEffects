@@ -103,6 +103,11 @@ The following classes can be added to an individual `.step` to change the positi
 - `step--right`
 - `step--center`
 
+#### Caption padding (length of step)
+The following classes can be added to an individual `.step` to increase/decrease the padding above and below the step.
+- `step--long`: increases the padding by 25%. Helpful for giving more space for custom transitions.
+- `step--short`: decreases the step padding by 25%. Helpful for empty steps that are present only to trigger an image change.
+
 ### Focus point
 The `object-position` CSS property can be used on the `img` as an approximate "focus point", helpful when using the `force-fill` option.
 ```html
@@ -150,4 +155,27 @@ Add the class `visibility-sticky` to an individual image/layer to override and k
 
 `no-layering` is currently not supported for `wipe` variation.
 
+## Custom step functions
 
+A custom attribute can be added to an individual `.step` to reference a function, to be executed on step enter, exit, or progress:
+- `data-enter-function="customFunction"`
+- `data-exit-function="customFunction"`
+- `data-progress-function="customFunction"`
+
+The custom function must be defined in the Javascript file. It can be defined at the global scope, or within the stickyScroll if the custom function requires the stickyScroll context.
+
+```javascript
+var stepFunctions;
+
+stepFunctions = {
+  //define custom functions
+  'customFunction': customFunction
+};
+
+//sample custom function
+function customFunction(response, layer) {
+  console.log("custom function called");
+}
+```
+
+The [football helmets feature](https://www.science.org/content/article/inside-quest-make-safer-football-helmet) uses a progress function to add a sprite animation as a transition between steps, and an enter function to trigger the animated gifs to play when they appear. 
