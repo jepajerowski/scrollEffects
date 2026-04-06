@@ -43,6 +43,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
   var firstStep = captions.find('.step:first-child');
   var lastStep = captions.find('.step:last-child');
   var longStep = captions.find('.step--long');
+  var shortStep = captions.find('.step--short');
   var layers = figure.find('img');
   var baseImage = layers.filter(':first-child');
   var baseImageEl = baseImage.get(0);
@@ -234,11 +235,14 @@ function stickyScroll(wrapperId, aspectRatio = null) {
       .css('padding-bottom', stepPadding + 'px');
     firstStep
       .css('margin-top', firstStepMT + 'px');
-    lastStep
-      .css('padding-bottom', lastStepPB + 'px');
     longStep
       .css('padding-top', (stepPadding * 1.25) + 'px')
       .css('padding-bottom', (stepPadding * 1.25) + 'px');
+    shortStep
+      .css('padding-top', (stepPadding * 0.75) + 'px')
+      .css('padding-bottom', (stepPadding * 0.75) + 'px');
+    lastStep
+      .css('padding-bottom', lastStepPB + 'px');
     scrolly
       .css('width', scrollyWidth + 'px');
     figure
