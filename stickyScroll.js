@@ -31,7 +31,7 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
   //can move stepFunctions here if functions need the stickyScroll context
 
-  var prevWidth = $(window).width();
+  var windowWidth = $(window).width();
 
   var availableHeight = window.innerHeight - headerHeight;
 
@@ -144,9 +144,9 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
   // only run resize if width changes (prevent jumpiness on mobile) 
   function handleResize() {
-    var currentWidth = $(window).width();
-    if (currentWidth !== prevWidth) {
-      prevWidth = currentWidth;
+    var newWidth = $(window).width();
+    if (newWidth !== windowWidth) {
+      windowWidth = newWidth;
 
       scrolly.toggleClass('stop-transitions', true);
       resizeScrolly();
@@ -200,12 +200,12 @@ function stickyScroll(wrapperId, aspectRatio = null) {
 
     var scrollyWidth = scrolly.outerWidth(); //359
     var figureWidth = figure.outerWidth(); //359
-    var maxWidth = isContainerWidth && !isForceFill ? 1110 : $(window).width(); // forceFill overrides containerWidth //1110
+    var maxWidth = isContainerWidth && !isForceFill ? 1110 : windowWidth; // forceFill overrides containerWidth //1110
     var figureHeight;
     var figureWidthAsPercent = figureWidth / scrollyWidth; //1
 
     //set new values
-    scrollyWidth = Math.min(maxWidth, $(window).width());
+    scrollyWidth = Math.min(maxWidth, windowWidth);
     figureWidth = scrollyWidth * figureWidthAsPercent;
 
     if (isForceFill) {
