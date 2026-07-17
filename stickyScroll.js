@@ -226,7 +226,10 @@ function stickyScroll(wrapperId, aspectRatio = null) {
     var lastStepPB = figureMarginTop + figureHeight;
     scrollOffset = isWipe ? (figureMarginTop - (figureHeight * 0.2)) + 'px' : Math.floor(availableHeight / 2 + headerHeight) + 'px';
 
-    var stepPadding = isWipe ? Math.max(Math.floor(figureHeight * 1.3), Math.floor(availableHeight * 0.9) * 0.5) : Math.floor(availableHeight * 0.9) * 0.5;
+    var stepPaddingDefault = (isForceFill && windowWidth < 768) ?  Math.floor(availableHeight * 1.1) * 0.5 : Math.floor(availableHeight * 0.9) * 0.5;
+    var stepPaddingWipe = Math.floor(figureHeight * 1.3);
+
+    var stepPadding  = isWipe ? Math.max(stepPaddingWipe, stepPaddingDefault) : stepPaddingDefault;
     var firstStepMT = isWipe && isForceFill ? Math.floor(figureHeight * 1.3) * -0.5 : null;
     var translateX = isImageRight ? (scrollyWidth - figureWidth) / -2 : null;
 
